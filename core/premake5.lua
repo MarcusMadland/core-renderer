@@ -4,6 +4,12 @@ project "Core"
 	cppdialect "C++17"
 	staticruntime "on"
 
+	targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
+
+	pchheader "glpch.h"
+	pchsource "src/glpch.cpp"
+
 	files
 	{
 		"src/**.h",
@@ -20,7 +26,6 @@ project "Core"
 	includedirs
 	{
 		"src",
-		"vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
@@ -39,15 +44,15 @@ project "Core"
 
 		defines
 		{
-			"GLCORE_PLATFORM_WINDOWS",
+			"CORE_PLATFORM_WINDOWS",
 			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "configurations:Debug"
-		defines "GLCORE_DEBUG"
+		defines "CORE_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "GLCORE_RELEASE"
+		defines "CORE_RELEASE"
 		runtime "Release"

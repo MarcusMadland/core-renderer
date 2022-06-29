@@ -36,11 +36,11 @@ project "Project"
 		}
 
 	filter "configurations:Debug"
-		defines "GLCORE_DEBUG"
+		defines "CORE_DEBUG"
 		runtime "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "GLCORE_RELEASE"
+		defines "CORE_RELEASE"
 		runtime "Release"
         optimize "on"
