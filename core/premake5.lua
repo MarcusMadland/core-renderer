@@ -7,15 +7,14 @@ project "Core"
 	targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("../bin-int/" .. outputdir .. "/%{prj.name}")
 
-	pchheader "glpch.h"
-	pchsource "src/glpch.cpp"
-
 	files
 	{
-		"src/**.h",
+		"include/**.h",
+		"include/**.hpp",
+		"include/**.cpp",
 		"src/**.cpp",
 		"vendor/glm/glm/**.hpp",
-		"vendor/glm/glm/**.inl"
+		"vendor/glm/glm/**.inl",
 	}
 
 	defines
@@ -25,7 +24,7 @@ project "Core"
 
 	includedirs
 	{
-		"src",
+		"include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",

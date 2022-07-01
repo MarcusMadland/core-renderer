@@ -45,3 +45,6 @@
 *.exe
 *.out
 *.app
+
+# Backup Files
+*.bak

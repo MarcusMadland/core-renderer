@@ -9,13 +9,16 @@ project "Project"
 
 	files
 	{
-		"src/**.h",
-		"src/**.cpp"
+		"include/**.h",
+		"include/**.hpp",
+		"include/**.cpp",
+		"src/**.cpp",
 	}
 
 	includedirs
 	{
-		"../core/src",
+		"include",
+		"../core/include",
 		"../core/vendor",
 		"../core/%{IncludeDir.glm}",
 		"../core/%{IncludeDir.Glad}",
@@ -32,7 +35,7 @@ project "Project"
 
 		defines
 		{
-			"GLCORE_PLATFORM_WINDOWS"
+			"CORE_PLATFORM_WINDOWS"
 		}
 
 	filter "configurations:Debug"
