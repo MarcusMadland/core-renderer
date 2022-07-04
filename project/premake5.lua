@@ -23,6 +23,7 @@ project "Project"
 		"../core/%{IncludeDir.glm}",
 		"../core/%{IncludeDir.Glad}",
 		"../core/%{IncludeDir.ImGui}",
+		"../core/%{IncludeDir.TinyGLTF}",
 	}
 
 	links

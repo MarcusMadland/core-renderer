@@ -22,8 +22,6 @@ namespace Core
 			width, height }));
 		window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
-		// Renderer::Init();
-
 		imguiLayer = new ImGuiLayer();
 		PushOverlay(imguiLayer);
 	}

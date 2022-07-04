@@ -29,6 +29,7 @@ project "Core"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.TinyGLTF}",
 	}
 
 	links 
@@ -36,6 +37,7 @@ project "Core"
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"TinyGLTF",
 	}
 
 	filter "system:windows"

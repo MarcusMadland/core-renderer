@@ -988,6 +988,7 @@ CODE
  - tip: call and read the ShowDemoWindow() code in imgui_demo.cpp for more example of how to use ImGui!
 
 */
+#include <iostream>
 
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
@@ -1639,6 +1640,7 @@ FILE* ImFileOpen(const char* filename, const char* mode)
 // Memory allocated with IM_ALLOC(), must be freed by user using IM_FREE() == ImGui::MemFree()
 void* ImFileLoadToMemory(const char* filename, const char* file_open_mode, size_t* out_file_size, int padding_bytes)
 {
+
     IM_ASSERT(filename && file_open_mode);
     if (out_file_size)
         *out_file_size = 0;

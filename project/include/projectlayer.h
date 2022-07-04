@@ -1,9 +1,8 @@
 #pragma once
 
-#include "core/layerstack.h"
-#include "core/events/event.h"
+#include "core.h"
 
-class ProjectLayer : public Core::Layer
+class ProjectLayer : public Layer
 {
 public:
 	ProjectLayer() {}
@@ -14,4 +13,7 @@ public:
 	virtual void OnUpdate(const float& dt) override;
 	virtual void OnImGuiRender() override;
 	virtual void OnEvent(Core::Event& event) override;
+
+private:
+	Scene* scene;
 };

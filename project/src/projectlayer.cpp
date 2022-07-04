@@ -1,12 +1,18 @@
 #include "projectlayer.h"
 
-#include <iostream>
-
-#include <Glad/glad.h>
-
 void ProjectLayer::OnAttach()
 {
 	// Init here..
+	Logger::SetPriority(Logger::LogPriority::Info);
+
+	scene = new Scene();
+	scene->Init();
+
+	ImporterGLTF* importer = new ImporterGLTF();
+	StaticMeshObject* ryn = 
+		importer->ImportStaticMesh("../core/assets/meshes/cube/Cube.gltf");
+
+	scene->AddObject(ryn);
 }
 
 void ProjectLayer::OnDetach()
@@ -22,9 +28,11 @@ void ProjectLayer::OnEvent(Core::Event& event)
 void ProjectLayer::OnUpdate(const float& dt)
 {
 	// Update here..
+	scene->Update();
 }
 
 void ProjectLayer::OnImGuiRender()
 {
-	// ImGui here..
+	// ImGui here..	
+	ImGuiEx::ShowFPS();
 }

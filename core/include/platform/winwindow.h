@@ -27,6 +27,13 @@ namespace Core
 	private:
 		struct WindowsWindowInfo
 		{
+			WindowsWindowInfo()
+				: title("winwindow")
+				, width(1280)
+				, height(720)
+				, vSync(true)
+			{}
+
 			const char* title;
 			uint32_t width;
 			uint32_t height;

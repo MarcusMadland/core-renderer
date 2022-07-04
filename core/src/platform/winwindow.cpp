@@ -12,11 +12,6 @@ namespace Core
 {
 	static bool glfwInitialized = false;
 
-	Window* Window::Create(const WindowInfo& info)
-	{
-		return new WindowsWindow(info);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowInfo& info)
 	{
 		winInfo.title = info.title;

@@ -18,8 +18,8 @@ namespace Core
 		void PopOverlay(Layer* overlay);
 
 		std::vector<Layer*>::iterator begin() { return layers.begin(); }
-
 		std::vector<Layer*>::iterator end() { return layers.end(); }
+
 	private:
 		std::vector<Layer*> layers;
 		uint32_t layerInsertIndex = 0;

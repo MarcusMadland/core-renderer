@@ -14,7 +14,7 @@ namespace Core
 		uint32_t height;
 
 		WindowInfo()
-			: title("core-renderer"), width(1280), height(720)
+			: title("window"), width(1280), height(720)
 		{}
 		WindowInfo(const char* name, uint32_t width, uint32_t height)
 			: title(name), width(width), height(height)
@@ -38,7 +38,7 @@ namespace Core
 
 		virtual void* GetNativeWindow() const = 0;
 
-		// This is implemented in winwindow.h since we are creating a
+		// This is implemented in winwindow.cpp since we are creating a
 		// window for Windows OS
 		static Window* Create(const WindowInfo& info = WindowInfo());
 	};
