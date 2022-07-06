@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "core/debug/logger/logger.h"
+
 namespace Core
 {
 	StaticMesh::StaticMesh(
@@ -12,6 +14,23 @@ namespace Core
         : vao(0), vbo(0), ebo(0)
         , vertices(vertices), indices(indices), textures(textures)
 	{
+        if (vertices.size() <= 0)
+        {
+            Logger::LOG(Logger::LogPriority::Error, "List of Vertices while constructing StaticMesh are empty");
+            return;
+        }
+
+        if (indices.size() <= 0)
+        {
+            Logger::LOG(Logger::LogPriority::Critical, "List of Indices while constructing StaticMesh are empty");
+            return;
+        }
+
+        if (textures.size() <= 0)
+        {
+            Logger::LOG(Logger::LogPriority::Warn, "List of Textures while constructing StaticMesh are empty");
+        }
+
         // Generate Buffers and Data 
         glGenVertexArrays(1, &vao);
         glGenBuffers(1, &vbo);
@@ -59,9 +78,8 @@ namespace Core
             return;
 
         // Update shader with model matrix (transform)
-        const GLuint uniLocation = glGetUniformLocation(shaderID, "uModel");
-        glUniformMatrix4fv(uniLocation, 1, false, 
-            glm::value_ptr(GetLocalModelMatrix()));
+        glUniformMatrix4fv(glGetUniformLocation(shaderID, "uObject"), 
+            1, false, glm::value_ptr(GetLocalModelMatrix()));
 
         // Draw all meshes
         for (unsigned int i = 0; i < meshes.size(); i++)

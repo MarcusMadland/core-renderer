@@ -1,34 +1,52 @@
 #include "core/object/scene.h"
 
+#include <iostream>
+
+#include "core/graphics/shader.h"
+
 namespace Core
 {
 	Scene::Scene()
 		: shaderID(0)
 	{
+		Init();
 	}
 	Scene::~Scene()
 	{
 	}
+
 	void Scene::Init()
 	{
-		// shader
+		// Camera
+		camera = new Camera();
+
+		// Shader
 		Shader* shader = Shader::FromGLSL(
-			"../core/assets/shaders/core-vert.glsl", 
+			"../core/assets/shaders/core-vert.glsl",
 			"../core/assets/shaders/core-frag.glsl");
+		shader->Use();
+
+		// Save shaderID
 		shaderID = shader->GetID();
 	}
 	void Scene::Update()
 	{
-		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		// Clear screen
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// Update camera
+		camera->Update(shaderID);
+
+		// Draw all objects in scene
 		for (auto& obj : sceneObjects)
 		{
-			obj->Draw(shaderID); // shaderID
+			obj->Draw(shaderID); 
 			for (auto& child : obj->children)
-				child->Draw(shaderID); // shaderID
+				child->Draw(shaderID); 
 		}
 	}
+
 	void Scene::AddObject(Object* object)
 	{
 		if (object)

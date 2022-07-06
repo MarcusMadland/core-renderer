@@ -19,11 +19,12 @@ project "Project"
 	{
 		"include",
 		"../core/include",
+		"../core/vendor/json",
 		"../core/vendor",
 		"../core/%{IncludeDir.glm}",
 		"../core/%{IncludeDir.Glad}",
 		"../core/%{IncludeDir.ImGui}",
-		"../core/%{IncludeDir.TinyGLTF}",
+		"../core/%{IncludeDir.json}",
 	}
 
 	links

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "object.h"
-#include "core/graphics/shader.h"
+#include "core/camera/camera.h"
 
 namespace Core
 {
@@ -17,6 +17,7 @@ namespace Core
 
 	private:
 		std::vector<Object*> sceneObjects;
+		Camera* camera;
 		uint32_t shaderID;
 	};
 }

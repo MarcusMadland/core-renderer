@@ -40,8 +40,12 @@ namespace Core
 		std::string vertexSource = ReadFileAsString(vertexShaderPath);
 		std::string fragmentSource = ReadFileAsString(fragmentShaderPath);
 
+		if (vertexSource.empty())
+			Logger::LOG(Logger::LogPriority::Error, "Failed to locate Vertex Shader GLSL file.");
+		if (fragmentSource.empty())
+			Logger::LOG(Logger::LogPriority::Error, "Failed to locate Fragment Shader GLSL file.");
+
 		GLuint program = glCreateProgram();
-		int glShaderIDIndex = 0;
 
 		GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource);
 		glAttachShader(program, vertexShader);
@@ -102,14 +106,6 @@ namespace Core
 	void Shader::Use()
 	{
 		glUseProgram(id);
-	}
-
-	void Shader::SetFloat(const std::string& name, float value,
-		bool useShader)
-	{
-		if (useShader)
-			Use();
-		glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 	}
 }
 

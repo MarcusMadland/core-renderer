@@ -15,6 +15,7 @@ project "Core"
 		"src/**.cpp",
 		"vendor/glm/glm/**.hpp",
 		"vendor/glm/glm/**.inl",
+		"vendor/json/**.h",
 	}
 
 	defines
@@ -29,7 +30,7 @@ project "Core"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.TinyGLTF}",
+		"%{IncludeDir.json}",
 	}
 
 	links 
@@ -37,7 +38,6 @@ project "Core"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"TinyGLTF",
 	}
 
 	filter "system:windows"

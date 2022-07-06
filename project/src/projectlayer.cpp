@@ -6,13 +6,16 @@ void ProjectLayer::OnAttach()
 	Logger::SetPriority(Logger::LogPriority::Info);
 
 	scene = new Scene();
-	scene->Init();
 
 	ImporterGLTF* importer = new ImporterGLTF();
-	StaticMeshObject* ryn = 
-		importer->ImportStaticMesh("../core/assets/meshes/cube/Cube.gltf");
 
-	scene->AddObject(ryn);
+	StaticMeshObject* rabbit = importer->ImportStaticMesh(
+		"../core/assets/meshes/bunny/scene.gltf");
+	rabbit->SetObjectScale({ 2.0f, 2.0f, 2.0f });
+	rabbit->SetObjectPosition({ 0.0f, -0.2f, -0.3f });
+	rabbit->SetObjectRotation({ 0.0f, 90.0f, -90.0f });
+
+	scene->AddObject(rabbit);
 }
 
 void ProjectLayer::OnDetach()

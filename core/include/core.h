@@ -18,7 +18,6 @@
 #include <glm/gtc/type_ptr.hpp>					// Type Pointer
 #include <glm/gtc/matrix_transform.hpp>			// Matrices math
 #include <imgui.h>								// ImGui
-#include <tiny_gltf.h>							// Tiny GLTF
 
 using namespace Core;
 
