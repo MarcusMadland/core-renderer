@@ -1,8 +1,11 @@
 #include "core/object/staticmesh.h"
 
+#include <string>
+
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "core/app.h"
 #include "core/debug/logger/logger.h"
 
 namespace Core
@@ -66,6 +69,32 @@ namespace Core
 
 	void StaticMesh::Draw(uint32_t shaderID)
 	{
+        // @TODO Find a better way to search for textures without
+        // relying on specific naming
+        unsigned int diffuseNr = 1;
+        unsigned int specularNr = 1;
+
+        for (unsigned int i = 0; i < textures.size(); i++)
+        {
+            glActiveTexture(GL_TEXTURE0 + i);
+
+            std::string number;
+            std::string name = textures[i].type;
+
+            if (name == "diffuse")
+                number = std::to_string(diffuseNr++);
+
+            else if (name == "specular")
+                number = std::to_string(specularNr++);
+
+            glUseProgram(shaderID);
+            glUniform1f(glGetUniformLocation(shaderID,
+                ("texture_" + name + number).c_str()), i);
+
+            glBindTexture(GL_TEXTURE_2D, textures[i].id);
+        }
+        glActiveTexture(GL_TEXTURE0);
+
         // Draw Mesh
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);

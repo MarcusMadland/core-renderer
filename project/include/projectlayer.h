@@ -5,7 +5,10 @@
 class ProjectLayer : public Layer
 {
 public:
-	ProjectLayer() {}
+	ProjectLayer()
+		: scene(nullptr) 
+	{}
+
 	virtual ~ProjectLayer() {}
 
 	virtual void OnAttach() override;

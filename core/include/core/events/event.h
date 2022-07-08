@@ -14,6 +14,12 @@ namespace Core
 
 		KeyPressed,
 		KeyReleased,
+		KeyTyped,
+
+		MouseMoved,
+		MouseScrolled,
+		MouseButtonPressed,
+		MouseButtonReleased,
 	};
 	
 	#define EVENT_CLASS_TYPE(type) \

@@ -16,6 +16,8 @@ project "Core"
 		"vendor/glm/glm/**.hpp",
 		"vendor/glm/glm/**.inl",
 		"vendor/json/**.h",
+		"vendor/stb_image/**.h",
+		"vendor/stb_image/**.cpp",
 	}
 
 	defines
@@ -31,6 +33,7 @@ project "Core"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.json}",
+		"%{IncludeDir.stb_image}",
 	}
 
 	links 

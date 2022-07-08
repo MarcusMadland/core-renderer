@@ -6,6 +6,8 @@
 
 #include "core/events/event.h"
 
+struct GLFWwindow;
+
 namespace Core
 {
 	class Camera
@@ -22,16 +24,37 @@ namespace Core
 		void SetPosition(glm::vec3 pos);
 		void SetRotation(glm::vec3 rot);
 
+		glm::vec3 GetPosition() { return position; }
+		glm::vec3 GetRotation() { return rotation; }
+
 	private:
+		void UpdateInput();
+
+	private:
+		GLFWwindow* winwindow;
+
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 rotation = glm::vec3(0.0f, 0.0f, -1.0f);
 		glm::vec3 upVector = glm::vec3(0.0f, 1.0f, 0.0f);
 		glm::mat4 matrix = glm::mat4(1.0f);
 
+		bool pan = false;
+		bool rotate = false;
+		bool reset = false;
+
+		// Camera properties
 		uint32_t width = 1280;
 		uint32_t height = 720;
 		float fov = 90.0f;
 		float nearPlane = 0.1f;
 		float farPlane = 5500.0f;
+		float speed = 0.001f;
+		float sensetivity = 0.15f;
+
+		// Input
+		double mouseX = 0.0f;
+		double lastMouseX = 0.0f;
+		double mouseY = 0.0f;
+		double lastMouseY = 0.0f;
 	};
 }

@@ -33,9 +33,9 @@ namespace Core
 
 		// Read gltf file
 		std::string text = ReadFileAsString(modelpath);
-		json = nlohmann::json::parse(text);
+		JSON = nlohmann::json::parse(text);
 
-		if (json == nullptr)
+		if (JSON == nullptr)
 			Logger::LOG(Logger::LogPriority::Error, "JSON is returning null!");
 
 		path = modelpath;
@@ -57,38 +57,38 @@ namespace Core
 	void ImporterGLTF::LoadMesh(uint32_t indMesh)
 	{
 		// Positions
-		uint32_t posAccInd = json["meshes"][indMesh]\
+		uint32_t posAccInd = JSON["meshes"][indMesh]\
 			["primitives"][0]["attributes"]["POSITION"];
 		std::vector<glm::vec3> positions = 
-			MakeVec3(GetFloats(json["accessors"][posAccInd]));
+			MakeVec3(GetFloats(JSON["accessors"][posAccInd]));
 
 		// Normals
-		uint32_t norAccInd = json["meshes"][indMesh]\
+		uint32_t norAccInd = JSON["meshes"][indMesh]\
 			["primitives"][0]["attributes"]["NORMAL"];
 		std::vector<glm::vec3> normals = 
-			MakeVec3(GetFloats(json["accessors"][norAccInd]));
+			MakeVec3(GetFloats(JSON["accessors"][norAccInd]));
 
 		// Texture UV (TexCoords)
-		uint32_t texAccInd = json["meshes"][indMesh]\
+		uint32_t texAccInd = JSON["meshes"][indMesh]\
 			["primitives"][0]["attributes"]["TEXCOORD_0"];
 		std::vector<glm::vec2> texUVs =
-			MakeVec2(GetFloats(json["accessors"][texAccInd]));
+			MakeVec2(GetFloats(JSON["accessors"][texAccInd]));
 
 		// Indices
-		uint32_t indAccInd = json["meshes"][indMesh]\
+		uint32_t indAccInd = JSON["meshes"][indMesh]\
 			["primitives"][0]["indices"];
 		std::vector<uint32_t> indices = 
-			GetIndices(json["accessors"][indAccInd]);
+			GetIndices(JSON["accessors"][indAccInd]);
 
 		// Make Vertex data and Texture data
 		std::vector<Vertex> verts = MakeVertex(positions, normals, texUVs);
-		std::vector<Texture> texs = {};
+		std::vector<Texture> texs = GetTextures();
 
 		meshes.push_back(StaticMesh(verts, indices, texs));
 	}
 	void ImporterGLTF::TraverseNode(uint32_t nextNode)
 	{
-		nlohmann::json node = json["nodes"][nextNode];
+		nlohmann::json node = JSON["nodes"][nextNode];
 
 		// Load mesh if we find it
 		if (node.find("mesh") != node.end())
@@ -104,7 +104,7 @@ namespace Core
 	std::vector<uint8_t> ImporterGLTF::GetData()
 	{
 		std::string bytesText;
-		std::string uri = json["buffers"][0]["uri"];
+		std::string uri = JSON["buffers"][0]["uri"];
 
 		std::string pathStr = std::string(path);
 		std::string pathDirectory = pathStr.substr(0, pathStr.find_last_of('/') + 1);
@@ -124,7 +124,7 @@ namespace Core
 		uint32_t buffViewInd = accessor.value("bufferView", 1);   // 1 as backup
 		uint32_t accByteOffset = accessor.value("byteOffset", 0); // 0 as backup
 
-		nlohmann::json bufferView = json["bufferViews"][buffViewInd];
+		nlohmann::json bufferView = JSON["bufferViews"][buffViewInd];
 		uint32_t byteOffset = bufferView["byteOffset"];
 
 		uint32_t beginData = byteOffset + accByteOffset;
@@ -190,7 +190,7 @@ namespace Core
 		uint32_t count = accessor["count"];
 		std::string type = accessor["type"];
 
-		nlohmann::json bufferView = json["bufferViews"][buffViewInd];
+		nlohmann::json bufferView = JSON["bufferViews"][buffViewInd];
 		uint32_t byteOffset = bufferView["byteOffset"];
 
 		uint32_t numPerVert;
@@ -225,6 +225,58 @@ namespace Core
 		}
 
 		return floatVec;
+	}
+
+	std::vector<Texture> ImporterGLTF::GetTextures()
+	{
+		std::vector<Texture> textures;
+
+		std::string pathStr = std::string(path);
+		std::string pathDirectory = 
+			pathStr.substr(0, pathStr.find_last_of('/') + 1);
+
+		// @TODO Find a better way to search for textures without
+		// relying on specific naming
+		for (uint32_t i = 0; i < JSON["images"].size(); i++)
+		{
+			std::string texPath = JSON["images"][i]["uri"];
+
+			bool skip = false;
+			for (uint32_t j = 0; j < loadedTexPath.size(); j++)
+			{
+				if (loadedTexPath[j] == texPath)
+				{
+					textures.push_back(loadedTextures[j]);
+					skip = true;
+					break;
+				}
+			}
+
+			if (!skip)
+			{
+				// Diffuse
+				if (texPath.find("baseColor") != std::string::npos)
+				{
+					Texture diffuse = Texture((pathDirectory + texPath).c_str(),
+						"diffuse", loadedTextures.size());
+					textures.push_back(diffuse);
+					loadedTextures.push_back(diffuse);
+					loadedTexPath.push_back(texPath);
+				}
+
+				// Specular
+				else if (texPath.find("metallicRoughness") != std::string::npos)
+				{
+					Texture specular = Texture((pathDirectory + texPath).c_str(),
+						"specular", loadedTextures.size());
+					textures.push_back(specular);
+					loadedTextures.push_back(specular);
+					loadedTexPath.push_back(texPath);
+				}
+			}
+		}
+
+		return textures;
 	}
 
 	std::vector<glm::vec2> ImporterGLTF::MakeVec2(std::vector<float> val)

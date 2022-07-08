@@ -26,6 +26,7 @@ namespace Core
 		void PushOverlay(Layer* layer);
 
 		inline Window& GetWindow() { return *window; }
+
 		inline static App& Instance() { return *instance; }
 
 	private:

@@ -4,6 +4,8 @@
 
 #include <imgui.h>
 
+#include "core/app.h"
+
 namespace ImGuiEx
 {
 	static void ShowFPS()
@@ -23,10 +25,10 @@ namespace ImGuiEx
 				ImGui::GetIO().Framerate);
 			ImGui::Text("TIME: %.2f ms",				// MS
 				1000.0f / ImGui::GetIO().Framerate);
-			ImGui::Text("DRAWCALLS: 0"					// DRAWCALLS
-				);
-			ImGui::Text("VERTS: 0"						// VERTICES
-				);
+			ImGui::Text("DRAWCALLS: %s",				// DRAWCALLS
+				0);		
+			ImGui::Text("VERTS: &s",					// VERTICES
+				0);										
 
 			ImGui::End();
 		}

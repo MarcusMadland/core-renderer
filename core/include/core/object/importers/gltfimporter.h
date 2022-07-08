@@ -1,11 +1,13 @@
 #pragma once
 
-#include "core/object/importer.h"
+#include "core/object/importers/importer.h"
 
 #include <vector>
 
 #include <json.h>
 #include <glm/glm.hpp>
+
+#include "core/graphics/texture.h"
 
 namespace Core
 {
@@ -21,6 +23,7 @@ namespace Core
 
 		std::vector<uint32_t> GetIndices(nlohmann::json accessor);
 		std::vector<float> GetFloats(nlohmann::json accessor);
+		std::vector<Texture> GetTextures();
 
 		std::vector<glm::vec2> MakeVec2(std::vector<float> val);
 		std::vector<glm::vec3> MakeVec3(std::vector<float> val);
@@ -29,8 +32,11 @@ namespace Core
 
 	private:
 		const char* path;
-		nlohmann::json json;
+		nlohmann::json JSON;
 		std::vector<uint8_t> data = {};
 		std::vector<StaticMesh> meshes = {};
+
+		std::vector<std::string> loadedTexPath;
+		std::vector<Texture> loadedTextures;
 	};
 }

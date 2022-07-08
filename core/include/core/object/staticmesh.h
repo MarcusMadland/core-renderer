@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include "object.h"
+#include "core/graphics/texture.h"
 
 namespace Core
 {
@@ -20,11 +21,6 @@ namespace Core
 		glm::vec3 position;
 		glm::vec3 normal;
 		glm::vec2 texCoords;
-	};
-
-	struct Texture
-	{
-		uint32_t rendererID;
 	};
 
 	struct StaticMesh

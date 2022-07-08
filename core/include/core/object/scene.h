@@ -2,6 +2,7 @@
 
 #include "object.h"
 #include "core/camera/camera.h"
+#include "core/events/event.h"
 
 namespace Core
 {
@@ -13,6 +14,8 @@ namespace Core
 
 		void Init();
 		void Update();
+		void OnEvent(Core::Event& event);
+
 		void AddObject(Object* object);
 
 	private:

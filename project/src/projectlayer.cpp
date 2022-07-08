@@ -26,6 +26,7 @@ void ProjectLayer::OnDetach()
 void ProjectLayer::OnEvent(Core::Event& event)
 {
 	// Events here..
+	scene->OnEvent(event);
 }
 
 void ProjectLayer::OnUpdate(const float& dt)

@@ -26,7 +26,6 @@ void main()
 {    
     float depth = logisticDepth(gl_FragCoord.z);
 
-    //FragColor = texture(texture_diffuse1, TexCoords) * 
-    //    (1.0f - depth) + vec4(depth * vec3(0.5f, 0.5f, 0.5f), 1.0f);
-	FragColor = vec4(1, 1, 1, 1);
+    FragColor = texture(texture_diffuse1, TexCoords) * 
+        (1.0f - depth) + vec4(depth * vec3(0.5f, 0.5f, 0.5f), 1.0f);
 }

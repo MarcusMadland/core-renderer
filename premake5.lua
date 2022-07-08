@@ -23,6 +23,7 @@ IncludeDir["Glad"] = "vendor/Glad/include"
 IncludeDir["ImGui"] = "vendor/imgui"
 IncludeDir["glm"] = "vendor/glm"
 IncludeDir["json"] = "vendor/json"
+IncludeDir["stb_image"] = "vendor/stb_image"
 
 group "Dependencies"
 	include "core/vendor/GLFW"

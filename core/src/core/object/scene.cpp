@@ -1,7 +1,5 @@
 #include "core/object/scene.h"
 
-#include <iostream>
-
 #include "core/graphics/shader.h"
 
 namespace Core
@@ -31,6 +29,8 @@ namespace Core
 	}
 	void Scene::Update()
 	{
+		glEnable(GL_DEPTH_TEST);
+
 		// Clear screen
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -45,6 +45,10 @@ namespace Core
 			for (auto& child : obj->children)
 				child->Draw(shaderID); 
 		}
+	}
+	void Scene::OnEvent(Core::Event& event)
+	{
+		camera->OnEvent(event);
 	}
 
 	void Scene::AddObject(Object* object)
