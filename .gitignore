@@ -48,3 +48,6 @@
 
 # Backup Files
 *.bak
+
+# JSON Visual Logger files
+project/*.json
