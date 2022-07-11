@@ -1,5 +1,7 @@
 #include "core/object/scene.h"
 
+#include <glfw/glfw3.h>
+
 #include "core/graphics/shader.h"
 
 namespace Core
@@ -27,23 +29,36 @@ namespace Core
 		// Save shaderID
 		shaderID = shader->GetID();
 	}
-	void Scene::Update()
+	void Scene::Update(float dt)
 	{
-		glEnable(GL_DEPTH_TEST);
+		PROFILE_SCOPE("Scene");
 
-		// Clear screen
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// OpenGL settings
+		glEnable(GL_DEPTH_TEST);
+		{
+			PROFILE_SCOPE("Pre-Render");
+
+			// OpenGL Clear screen
+			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
 
 		// Update camera
-		camera->Update(shaderID);
-
-		// Draw all objects in scene
-		for (auto& obj : sceneObjects)
 		{
-			obj->Draw(shaderID); 
-			for (auto& child : obj->children)
-				child->Draw(shaderID); 
+			PROFILE_SCOPE("Camera");
+			camera->Update(dt, shaderID);
+		}
+		
+		{
+			PROFILE_SCOPE("Render");
+			PROFILE_SCOPE_ONSCREEN("cpu(render):");
+			// Draw all objects in scene
+			for (auto& obj : sceneObjects)
+			{
+				obj->Draw(shaderID);
+				for (auto& child : obj->children)
+					child->Draw(shaderID);
+			}
 		}
 	}
 	void Scene::OnEvent(Core::Event& event)

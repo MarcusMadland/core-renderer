@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 
-#include "core/debug/logger/logger.h"
+#include "core/debug/logger.h"
 
 namespace Core
 {

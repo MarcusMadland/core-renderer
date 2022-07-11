@@ -2,6 +2,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "debug.h"
+
 namespace Core
 {
 	#define BIND_EVENT_FN(x) std::bind(&App::x, \
@@ -40,21 +42,33 @@ namespace Core
 	{
 		while (isRunning)
 		{
-			float time = (float)glfwGetTime();
-			float deltaTime = time - lastFrameTime;
+			PROFILE_SCOPE("App");
+
+			float time = (float)glfwGetTime(); // @TODO Should be support diff platform
+			deltaTime = time - lastFrameTime;
 			lastFrameTime = time;
 
-			for (Layer* layer : layerStack)
-				layer->OnUpdate(deltaTime);
+			{
+				PROFILE_SCOPE("LayerStack");
+				for (Layer* layer : layerStack)
+					layer->OnUpdate(deltaTime);
+			}
 
-			imguiLayer->Begin();
+			{
+				PROFILE_SCOPE("ImGui");
+				imguiLayer->Begin();
 
-			for (Layer* layer : layerStack)
-				layer->OnImGuiRender();
+				for (Layer* layer : layerStack)
+					layer->OnImGuiRender();
 
-			imguiLayer->End();
-
-			window->OnUpdate();
+				imguiLayer->End();
+			}
+			
+			{
+				PROFILE_SCOPE("Window");
+				window->OnUpdate();
+			}
+			
 		}
 	}
 	void App::OnEvent(Event& e)
@@ -74,5 +88,22 @@ namespace Core
 	{
 		isRunning = false;
 		return true;
+	}
+
+	void App::AddVertCount(uint32_t verts)
+	{
+		vertCount = vertCount + verts;
+	}
+	void App::AddDrawCalls(uint32_t calls)
+	{
+		drawCalls = drawCalls + calls;
+	}
+	void App::ResetVertCount()
+	{
+		vertCount = 0;
+	}
+	void App::ResetDrawCalls()
+	{
+		drawCalls = 0;
 	}
 }

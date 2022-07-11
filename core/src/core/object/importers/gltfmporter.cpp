@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 
-#include "core/debug/logger/logger.h"
+#include "core/debug/logger.h"
 #include "core/object/staticmesh.h"
 
 namespace Core
@@ -21,7 +21,6 @@ namespace Core
 			in.read(&result[0], result.size());
 			in.close();
 		}
-
 		return result;
 	}
 
@@ -47,7 +46,7 @@ namespace Core
 		TraverseNode(0);
 
 		if (!meshes.empty())
-			Logger::LOG(Logger::LogPriority::Info, "Successfully imported static mesh object");
+			Logger::LOG(Logger::LogPriority::Info, "Successfully imported static mesh object at %s", modelpath);
 		else
 			Logger::LOG(Logger::LogPriority::Error, "Static Mesh import failed since gltf file contains no meshes");
 		
@@ -258,7 +257,7 @@ namespace Core
 				if (texPath.find("baseColor") != std::string::npos)
 				{
 					Texture diffuse = Texture((pathDirectory + texPath).c_str(),
-						"diffuse", loadedTextures.size());
+						"diffuse", (uint32_t)loadedTextures.size());
 					textures.push_back(diffuse);
 					loadedTextures.push_back(diffuse);
 					loadedTexPath.push_back(texPath);
@@ -268,11 +267,11 @@ namespace Core
 				else if (texPath.find("metallicRoughness") != std::string::npos)
 				{
 					Texture specular = Texture((pathDirectory + texPath).c_str(),
-						"specular", loadedTextures.size());
+						"specular", (uint32_t)loadedTextures.size());
 					textures.push_back(specular);
 					loadedTextures.push_back(specular);
 					loadedTexPath.push_back(texPath);
-				}
+				}	
 			}
 		}
 
@@ -297,7 +296,8 @@ namespace Core
 		}
 		return vectors;
 	}
-	std::vector<Vertex> ImporterGLTF::MakeVertex(std::vector<glm::vec3> pos, std::vector<glm::vec3> norms, std::vector<glm::vec2> texCoords)
+	std::vector<Vertex> ImporterGLTF::MakeVertex(std::vector<glm::vec3> pos, 
+		std::vector<glm::vec3> norms, std::vector<glm::vec2> texCoords)
 	{
 		std::vector<Vertex> verts;
 		for (uint32_t i = 0; i < pos.size(); i++)
@@ -307,5 +307,4 @@ namespace Core
 
 		return verts;
 	}
-	
 }

@@ -1,6 +1,7 @@
 #include "core/layers/imguilayer.h"
 
 #include "core/app.h"
+#include "imguiex/imguiex.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -27,9 +28,9 @@ namespace Core
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; 
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-		io.FontDefault = 
-			io.Fonts->AddFontFromFileTTF("../core/assets/fonts/gameovercre1.ttf", 
-				14.0f);
+		//io.FontDefault = 
+		//	io.Fonts->AddFontFromFileTTF("../core/assets/fonts/VCR_OSD_MONO_1.001.ttf", 
+			//	12.0f);
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
@@ -41,6 +42,7 @@ namespace Core
 		{
 			style.WindowRounding = 0.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+			style.Colors[ImGuiCol_Text] = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
 		}
 
 		App& app = App::Instance();
@@ -57,6 +59,11 @@ namespace Core
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
+	}
+
+	void ImGuiLayer::OnImGuiRender()
+	{
+		ImGuiEx::ShowFPS();
 	}
 
 	void ImGuiLayer::Begin()

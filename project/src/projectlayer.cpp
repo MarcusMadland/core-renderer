@@ -1,5 +1,7 @@
 #include "projectlayer.h"
 
+#include "core/debug/instrumentor.h"
+
 void ProjectLayer::OnAttach()
 {
 	// Init here..
@@ -12,10 +14,20 @@ void ProjectLayer::OnAttach()
 	StaticMeshObject* rabbit = importer->ImportStaticMesh(
 		"../core/assets/meshes/bunny/scene.gltf");
 	rabbit->SetObjectScale({ 2.0f, 2.0f, 2.0f });
-	rabbit->SetObjectPosition({ 0.0f, -0.2f, -0.3f });
 	rabbit->SetObjectRotation({ 0.0f, 90.0f, -90.0f });
 
-	scene->AddObject(rabbit);
+	for (uint32_t i = 0; i < 10; i++)
+	{
+		for (uint32_t j = 0; j < 10; j++)
+		{
+			for (uint32_t k = 0; k < 5; k++)
+			{
+				StaticMeshObject* newRabbit = new StaticMeshObject(*rabbit);
+				newRabbit->SetObjectPosition({ -1.0f * i, -1.0f * j, -1.0f * k });
+				scene->AddObject(newRabbit);
+			}
+		}
+	}
 }
 
 void ProjectLayer::OnDetach()
@@ -32,11 +44,12 @@ void ProjectLayer::OnEvent(Core::Event& event)
 void ProjectLayer::OnUpdate(const float& dt)
 {
 	// Update here..
-	scene->Update();
+	PROFILE_SCOPE_ONSCREEN("cpu(project):");
+	scene->Update(dt);
 }
 
 void ProjectLayer::OnImGuiRender()
 {
 	// ImGui here..	
-	ImGuiEx::ShowFPS();
+	
 }

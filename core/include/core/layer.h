@@ -17,6 +17,7 @@ namespace Core
 		virtual void OnEvent(Event& event) {}
 
 		inline const char* GetName() const { return layerName; }
+
 	protected:
 		const char* layerName;
 	};

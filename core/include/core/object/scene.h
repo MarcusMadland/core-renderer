@@ -13,7 +13,7 @@ namespace Core
 		~Scene();
 
 		void Init();
-		void Update();
+		void Update(float dt);
 		void OnEvent(Core::Event& event);
 
 		void AddObject(Object* object);

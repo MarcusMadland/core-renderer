@@ -3,14 +3,13 @@
 // Main header file - include into application for complete access
 
 // Core Renderer
-#include "core/debug/logger/logger.h"			// Logging
+#include "debug.h"								// Timer and Logger
 #include "imguiex/imguiex.h"					// ImGui Extensions
 #include "core/object/scene.h"					// Scene
 #include "core/object/staticmesh.h"				// Object: StaticMesh
 #include "core/object/importers/gltfimporter.h"	// Importer: FBX
 #include "core/layerstack.h"					// Layers
 #include "core/graphics/shader.h"				// Shader
-#include "core/debug/logger/logger.h"			// Logger
 #include "core/input/input.h"					// Input
 
 // Libraries

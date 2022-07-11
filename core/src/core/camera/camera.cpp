@@ -13,7 +13,7 @@
 #include "core/app.h"
 #include "core/events/mouseevent.h"
 #include "core/events/keyevent.h"
-#include "core/debug/logger/logger.h"
+#include "core/debug/logger.h"
 
 namespace Core
 {
@@ -26,8 +26,10 @@ namespace Core
 	{
 	}
 
-	void Camera::Update(uint32_t shaderID)
+	void Camera::Update(float dt, uint32_t shaderID)
 	{
+		deltaTime = dt;
+
 		UpdateInput();
 
 		glm::mat4 view = glm::mat4(1.0f);
@@ -90,10 +92,10 @@ namespace Core
 				{
 					if (reset)
 					{
-						position += speed * (float)mouseX *
+						position += deltaTime * (speed * (float)mouseX) *
 							-glm::normalize(glm::cross(rotation, upVector));
 
-						position += speed * (float)mouseY * upVector;
+						position += deltaTime * (speed * (float)mouseY) * upVector;
 					}
 					reset = true;
 				}
@@ -103,7 +105,7 @@ namespace Core
 					if (reset)
 					{
 						glm::vec3 newOrientation = glm::rotate(rotation,
-							glm::radians((float)-mouseY * sensetivity),
+							glm::radians(deltaTime * (float)-mouseY * sensetivity),
 							glm::normalize(glm::cross(rotation, upVector)));
 
 						if (abs(glm::angle(newOrientation, upVector) - glm::radians(90.0f))
@@ -112,7 +114,8 @@ namespace Core
 							rotation = newOrientation;
 						}
 						rotation = glm::rotate(rotation,
-							glm::radians((float)-mouseX * sensetivity), upVector);
+							glm::radians(deltaTime * (float)-mouseX * sensetivity),
+							upVector);
 					}
 					reset = true;
 				}
@@ -122,7 +125,7 @@ namespace Core
 		dispatcher.Dispatch<MouseScrolledEvent>(
 			[&](MouseScrolledEvent& e)
 			{
-				position += e.GetYOffset() * 0.1f * rotation;
+				position += (deltaTime * sensetivity * e.GetYOffset()) * rotation;
 
 				return false;
 			});

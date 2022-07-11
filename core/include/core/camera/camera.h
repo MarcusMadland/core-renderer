@@ -16,7 +16,7 @@ namespace Core
 		Camera();
 		~Camera();
 
-		void Update(uint32_t shaderID);
+		void Update(float dt, uint32_t shaderID);
 		void OnEvent(Core::Event& event);
 
 		void SetNearAndFar(float nearPlane, float farPlane);
@@ -32,6 +32,7 @@ namespace Core
 
 	private:
 		GLFWwindow* winwindow;
+		float deltaTime = 0.0f;
 
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 rotation = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -45,11 +46,11 @@ namespace Core
 		// Camera properties
 		uint32_t width = 1280;
 		uint32_t height = 720;
-		float fov = 90.0f;
+		float fov = 45.0f;
 		float nearPlane = 0.1f;
 		float farPlane = 5500.0f;
-		float speed = 0.001f;
-		float sensetivity = 0.15f;
+		float speed = 0.2f;
+		float sensetivity = 10.0f;
 
 		// Input
 		double mouseX = 0.0f;

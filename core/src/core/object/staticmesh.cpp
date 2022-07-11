@@ -5,8 +5,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "core/app.h"
-#include "core/debug/logger/logger.h"
+#include "debug.h"
 
 namespace Core
 {
@@ -89,7 +88,7 @@ namespace Core
 
             glUseProgram(shaderID);
             glUniform1f(glGetUniformLocation(shaderID,
-                ("texture_" + name + number).c_str()), i);
+                ("texture_" + name + number).c_str()), (GLfloat)i);
 
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
         }
@@ -99,6 +98,9 @@ namespace Core
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
+
+        App::Instance().AddVertCount(indices.size());
+        App::Instance().AddDrawCalls(1);
 	}
 
     void StaticMeshObject::Draw(uint32_t shaderID)
