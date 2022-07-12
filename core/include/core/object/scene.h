@@ -1,5 +1,7 @@
 #pragma once
 
+#include <windows.h>
+
 #include "object.h"
 #include "core/camera/camera.h"
 #include "core/events/event.h"

@@ -72,12 +72,13 @@ namespace ImGuiEx
 
 		// FRAME RATE (FPS)
 		{
-			if (ImGui::GetIO().Framerate <= 60.0f)
+			if (1 / Core::App::Instance().GetDeltaTime() <= 60.0f)
 				ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 0.0f, 1.0f });
 			else
 				ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f, 1.0f, 0.0f, 1.0f });
 		
-			ImGui::Text("%.2f fps", ImGui::GetIO().Framerate);
+			ImGui::Text("%.2f fps", 
+				1 / Core::App::Instance().GetDeltaTime());
 
 			ImGui::PopStyleColor();
 		}

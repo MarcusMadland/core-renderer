@@ -1,5 +1,7 @@
 #include "core/app.h"
 
+#include <windows.h>
+
 #include <GLFW/glfw3.h>
 
 #include "debug.h"

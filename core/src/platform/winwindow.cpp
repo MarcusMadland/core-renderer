@@ -1,6 +1,5 @@
 #include "platform/winwindow.h"
 
-#include <assert.h>
 #include <iostream>
 
 #include <glad/glad.h>

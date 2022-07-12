@@ -1,5 +1,7 @@
 #include "core/object/scene.h"
 
+#include <windows.h>
+
 #include <glfw/glfw3.h>
 
 #include "core/graphics/shader.h"

@@ -99,7 +99,7 @@ namespace Core
         glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
-        App::Instance().AddVertCount(indices.size());
+        App::Instance().AddVertCount((uint32_t)indices.size());
         App::Instance().AddDrawCalls(1);
 	}
 

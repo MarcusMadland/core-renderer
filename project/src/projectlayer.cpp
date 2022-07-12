@@ -4,6 +4,7 @@
 
 void ProjectLayer::OnAttach()
 {
+	PROFILE_SCOPE("Project");
 	// Init here..
 	Logger::SetPriority(Logger::LogPriority::Info);
 
@@ -16,11 +17,11 @@ void ProjectLayer::OnAttach()
 	rabbit->SetObjectScale({ 2.0f, 2.0f, 2.0f });
 	rabbit->SetObjectRotation({ 0.0f, 90.0f, -90.0f });
 
-	for (uint32_t i = 0; i < 10; i++)
+	for (uint32_t i = 0; i < 5; i++)//X
 	{
-		for (uint32_t j = 0; j < 10; j++)
+		for (uint32_t j = 0; j < 5; j++)//Y
 		{
-			for (uint32_t k = 0; k < 5; k++)
+			for (uint32_t k = 0; k < 5; k++)//Z
 			{
 				StaticMeshObject* newRabbit = new StaticMeshObject(*rabbit);
 				newRabbit->SetObjectPosition({ -1.0f * i, -1.0f * j, -1.0f * k });
