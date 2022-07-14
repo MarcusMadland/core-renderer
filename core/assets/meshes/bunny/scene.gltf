@@ -70,9 +70,9 @@
             "name" : "diffuse",
             "uri" : "baseColor.png"
         },
-	{
-	    "uri" : "metallicRoughness.png"
-	}
+		{
+			"uri" : "metallicRoughness.png"
+		}
     ],
     "accessors" : [
         {

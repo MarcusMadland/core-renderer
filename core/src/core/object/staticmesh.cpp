@@ -68,8 +68,9 @@ namespace Core
 
 	void StaticMesh::Draw(uint32_t shaderID)
 	{
-        // @TODO Find a better way to search for textures without
-        // relying on specific naming
+        glUseProgram(shaderID);
+        glBindVertexArray(vao);
+
         unsigned int diffuseNr = 1;
         unsigned int specularNr = 1;
 
@@ -86,16 +87,11 @@ namespace Core
             else if (name == "specular")
                 number = std::to_string(specularNr++);
 
-            glUseProgram(shaderID);
-            glUniform1f(glGetUniformLocation(shaderID,
-                ("texture_" + name + number).c_str()), (GLfloat)i);
-
-            glBindTexture(GL_TEXTURE_2D, textures[i].id);
-        }
-        glActiveTexture(GL_TEXTURE0);
+            textures[i].TexUnit(shaderID, ("texture_" + name + number).c_str(), i);
+            textures[i].Bind();
+        };
 
         // Draw Mesh
-        glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 

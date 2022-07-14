@@ -1,0 +1,333 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 9639,
+      "max": [
+        382.68701171875,
+        443.2539978027344,
+        896.9530029296875
+      ],
+      "min": [
+        -950.3380126953125,
+        -6.8754048347473145,
+        -896.9530029296875
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 115668,
+      "componentType": 5126,
+      "count": 9639,
+      "max": [
+        0.9995049834251404,
+        0.9999997019767761,
+        0.9999127984046936
+      ],
+      "min": [
+        -0.9992766976356506,
+        -0.9999927282333374,
+        -0.9999092817306519
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 9639,
+      "max": [
+        0.9980679750442505,
+        0.9981679916381836
+      ],
+      "min": [
+        0.00250852108001709,
+        0.002976178890094161
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 48222,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "savounited (https://sketchfab.com/savounited)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/alduin-dragon-2242802d82f14846bd4a2337a1794701",
+      "title": "Alduin Dragon"
+    },
+    "generator": "Sketchfab-13.51.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 192888,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 77112,
+      "byteOffset": 192888,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 231336,
+      "byteOffset": 270000,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 501336,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Future_Dragon_Diffuse_baseColor.jpeg"
+    },
+    {
+      "uri": "textures/Future_Dragon_Diffuse_metallicRoughness.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Future_Dragon_Diffuse",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Future_Dragon_Diffuse-material",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "name": "Collada visual scene group"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        -0.2908646,
+        0.9551712,
+        -0.05518906,
+        0.0,
+        -0.7711008,
+        -0.1998834,
+        0.6045247,
+        0.0,
+        0.5663932,
+        0.2183912,
+        0.7946723,
+        0.0,
+        4.076245,
+        1.005454,
+        5.903862,
+        1.0
+      ],
+      "name": "Light"
+    },
+    {
+      "name": "Light"
+    },
+    {
+      "children": [
+        5
+      ],
+      "matrix": [
+        0.6859207,
+        0.7276763,
+        0.0,
+        0.0,
+        -0.3240135,
+        0.3054208,
+        0.8953956,
+        0.0,
+        0.6515582,
+        -0.6141704,
+        0.4452714,
+        0.0,
+        7.358891,
+        -6.925791,
+        4.958309,
+        1.0
+      ],
+      "name": "Camera"
+    },
+    {
+      "name": "Camera-camera"
+    },
+    {
+      "children": [
+        7
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.62921e-07,
+        1.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.62921e-07,
+        0.0,
+        0.0,
+        -5.5373,
+        -227.8074,
+        1.0
+      ],
+      "name": "Alduin"
+    },
+    {
+      "mesh": 0,
+      "name": "Future_Dragon_Diffuse-material"
+    },
+    {
+      "children": [
+        9
+      ],
+      "matrix": [
+        -0.576184,
+        -0.8172982,
+        -0.005979246,
+        0.0,
+        -0.09414351,
+        0.05909935,
+        0.9938028,
+        0.0,
+        -0.8118799,
+        0.5731762,
+        -0.1109954,
+        0.0,
+        532.5277,
+        -242.1994,
+        67.40987,
+        1.0
+      ],
+      "name": "Camera_Perspective3"
+    },
+    {
+      "name": "Camera_Perspective3-camera"
+    },
+    {
+      "children": [
+        11,
+        13
+      ],
+      "name": "LightPreset"
+    },
+    {
+      "children": [
+        12
+      ],
+      "name": "Sun"
+    },
+    {
+      "name": "Sun"
+    },
+    {
+      "children": [
+        14
+      ],
+      "name": "Sky"
+    },
+    {
+      "name": "Sky"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    }
+  ]
+}

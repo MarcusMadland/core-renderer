@@ -1,6 +1,6 @@
 #include "projectlayer.h"
 
-#include "core/debug/instrumentor.h"
+#include "debug.h"
 
 void ProjectLayer::OnAttach()
 {
@@ -12,6 +12,15 @@ void ProjectLayer::OnAttach()
 
 	ImporterGLTF* importer = new ImporterGLTF();
 
+	StaticMeshObject* alduin = importer->ImportStaticMesh(
+		"../core/assets/meshes/tree/scene.gltf");
+	alduin->SetObjectScale({ 0.01f, 0.01f, 0.01f });
+	alduin->SetObjectRotation({ 0.0f, 0.0f, 90.0f });
+
+	scene->AddObject(alduin);
+
+
+	/*
 	StaticMeshObject* rabbit = importer->ImportStaticMesh(
 		"../core/assets/meshes/bunny/scene.gltf");
 	rabbit->SetObjectScale({ 2.0f, 2.0f, 2.0f });
@@ -28,7 +37,7 @@ void ProjectLayer::OnAttach()
 				scene->AddObject(newRabbit);
 			}
 		}
-	}
+	}*/
 }
 
 void ProjectLayer::OnDetach()

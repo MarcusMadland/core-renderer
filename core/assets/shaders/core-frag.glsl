@@ -4,7 +4,7 @@ out vec4 FragColor;
 
 in vec2 TexCoords;
 
-uniform sampler2D texture_diffuse1;
+uniform sampler2D texture_diffuse0;
 
 float near = 0.001f;
 float far = 500.0f;
@@ -26,6 +26,6 @@ void main()
 {    
     float depth = logisticDepth(gl_FragCoord.z);
 
-    FragColor = texture(texture_diffuse1, TexCoords) * 
+    FragColor = texture(texture_diffuse0, TexCoords) *
         (1.0f - depth) + vec4(depth * vec3(0.5f, 0.5f, 0.5f), 1.0f);
 }

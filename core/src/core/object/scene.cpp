@@ -34,11 +34,12 @@ namespace Core
 	void Scene::Update(float dt)
 	{
 		PROFILE_SCOPE("Scene");
-
-		// OpenGL settings
-		glEnable(GL_DEPTH_TEST);
 		{
 			PROFILE_SCOPE("Pre-Render");
+
+			// OpenGL settings
+			glEnable(GL_DEPTH_TEST);
+			glDepthFunc(GL_LESS);
 
 			// OpenGL Clear screen
 			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);

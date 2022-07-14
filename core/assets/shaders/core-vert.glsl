@@ -11,6 +11,6 @@ uniform mat4 uObject;
 
 void main()
 {
-    TexCoords = aTexCoords;
+    TexCoords = mat2(0.0, -1.0, 1.0, 0.0) *  aTexCoords;
     gl_Position = (uCamera * uObject) * vec4(aPos, 1.0); 
 }

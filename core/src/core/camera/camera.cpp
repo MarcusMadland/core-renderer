@@ -35,7 +35,7 @@ namespace Core
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
 
-		proj = glm::perspective(glm::radians(fov), (float)(width / height),
+		proj = glm::perspective(glm::radians(fov), (float)width / height,
 			nearPlane, farPlane);
 		view = glm::lookAt(position, (position + rotation), upVector);
 		
@@ -133,8 +133,8 @@ namespace Core
 		dispatcher.Dispatch<WindowResizeEvent>(
 			[&](WindowResizeEvent& e)
 			{
-				width = e.GetWidth();
-				height = e.GetHeight();
+				//width = e.GetWidth();
+				//height = e.GetHeight();
 
 				return false;
 			});

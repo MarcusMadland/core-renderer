@@ -120,11 +120,11 @@ namespace Core
 		// https://www.khronos.org/registry/glTF/specs/2.0/glTF-2.0.pdf
 		uint32_t count = accessor["count"];
 		uint32_t componentType = accessor["componentType"];
-		uint32_t buffViewInd = accessor.value("bufferView", 1);   // 1 as backup
-		uint32_t accByteOffset = accessor.value("byteOffset", 0); // 0 as backup
+		uint32_t buffViewInd = accessor.value("bufferView", 0);			 // 0 as backup
+		uint32_t accByteOffset = accessor.value("byteOffset", 0);		 // 0 as backup
 
 		nlohmann::json bufferView = JSON["bufferViews"][buffViewInd];
-		uint32_t byteOffset = bufferView["byteOffset"];
+		uint32_t byteOffset = bufferView.value("byteOffset", 0);		 // 0 as backup
 
 		uint32_t beginData = byteOffset + accByteOffset;
 		
@@ -264,7 +264,7 @@ namespace Core
 				}
 
 				// Specular
-				else if (texPath.find("metallicRoughness") != std::string::npos)
+				if (texPath.find("metallicRoughness") != std::string::npos)
 				{
 					Texture specular = Texture((pathDirectory + texPath).c_str(),
 						"specular", (uint32_t)loadedTextures.size());

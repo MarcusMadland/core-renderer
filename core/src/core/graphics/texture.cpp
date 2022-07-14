@@ -14,6 +14,8 @@ namespace Core
 		int widthImg, heightImg, numColCh;
 
 		stbi_set_flip_vertically_on_load(true);
+		stbi_ldr_to_hdr_gamma(1.0f);
+
 		unsigned char* bytes = 
 			stbi_load(image, &widthImg, &heightImg, &numColCh, 0);
 
@@ -31,19 +33,9 @@ namespace Core
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, 
 			GL_REPEAT);
 
-		if (type == "normal")
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthImg, heightImg, 0,
-				GL_RGBA,GL_UNSIGNED_BYTE,bytes);
-		}
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 			
-		else if (type == "displacement")
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, widthImg, heightImg, 0,
-				GL_RED, GL_UNSIGNED_BYTE, bytes);
-		}
-			
-		else if (numColCh == 4)
+		if (numColCh == 4)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, widthImg, heightImg, 0,
 				GL_RGBA, GL_UNSIGNED_BYTE, bytes);
@@ -64,22 +56,14 @@ namespace Core
 		else
 			Logger::LOG(Logger::LogPriority::Error, "Automatic Texture type recognition failed");
 
-		// Generates MipMaps
 		glGenerateMipmap(GL_TEXTURE_2D);
-
-		// Deletes the image data as it is already in the OpenGL Texture object
-		stbi_image_free(bytes);
-
-		// Unbinds the OpenGL Texture object so that it can't accidentally be modified
 		glBindTexture(GL_TEXTURE_2D, 0);
+		stbi_image_free(bytes);
 	}
 	void Texture::TexUnit(uint32_t shaderID, const char* uniform, uint32_t unit)
 	{
-		// Gets the location of the uniform
 		GLuint texUni = glGetUniformLocation(shaderID, uniform);
-		// Shader needs to be activated before changing the value of a uniform
 		glUseProgram(shaderID);
-		// Sets the value of the uniform
 		glUniform1i(texUni, unit);
 	}
 	
