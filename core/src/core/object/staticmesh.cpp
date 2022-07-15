@@ -1,5 +1,6 @@
 #include "core/object/staticmesh.h"
 
+#include <iostream>
 #include <string>
 
 #include <glad/glad.h>
@@ -71,25 +72,22 @@ namespace Core
         glUseProgram(shaderID);
         glBindVertexArray(vao);
 
-        unsigned int diffuseNr = 1;
-        unsigned int specularNr = 1;
-
-        for (unsigned int i = 0; i < textures.size(); i++)
+        for (uint32_t i = 0; i < textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i);
 
-            std::string number;
-            std::string name = textures[i].type;
-
-            if (name == "diffuse")
-                number = std::to_string(diffuseNr++);
-
-            else if (name == "specular")
-                number = std::to_string(specularNr++);
-
-            textures[i].TexUnit(shaderID, ("texture_" + name + number).c_str(), i);
-            textures[i].Bind();
-        };
+            if (textures[i].type == "diffuse")
+            {
+                glUseProgram(shaderID);
+                glUniform1f(glGetUniformLocation(shaderID,
+                    "texture_diffuse"), i);
+                glBindTexture(GL_TEXTURE_2D, textures[i].id);
+            }
+            if (textures[i].type == "specular")
+            {
+                std::cout << textures[i].type << i << std::endl;
+            }
+        }
 
         // Draw Mesh
         glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);

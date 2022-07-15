@@ -81,7 +81,7 @@ namespace Core
 
 		// Make Vertex data and Texture data
 		std::vector<Vertex> verts = MakeVertex(positions, normals, texUVs);
-		std::vector<Texture> texs = GetTextures();
+		std::vector<Texture> texs = GetTextures(indMesh);
 
 		meshes.push_back(StaticMesh(verts, indices, texs));
 	}
@@ -226,7 +226,7 @@ namespace Core
 		return floatVec;
 	}
 
-	std::vector<Texture> ImporterGLTF::GetTextures()
+	std::vector<Texture> ImporterGLTF::GetTextures(uint32_t indMesh)
 	{
 		std::vector<Texture> textures;
 
@@ -236,43 +236,44 @@ namespace Core
 
 		// @TODO Find a better way to search for textures without
 		// relying on specific naming
-		for (uint32_t i = 0; i < JSON["images"].size(); i++)
+		std::string texPath = JSON["images"][indMesh]["uri"];
+
+		bool skip = false;
+		for (uint32_t j = 0; j < loadedTexPath.size(); j++)
 		{
-			std::string texPath = JSON["images"][i]["uri"];
-
-			bool skip = false;
-			for (uint32_t j = 0; j < loadedTexPath.size(); j++)
+			if (loadedTexPath[j] == texPath)
 			{
-				if (loadedTexPath[j] == texPath)
-				{
-					textures.push_back(loadedTextures[j]);
-					skip = true;
-					break;
-				}
+				textures.push_back(loadedTextures[j]);
+				skip = true;
+				break;
+			}
+		}
+
+		if (!skip)
+		{
+			// Diffuse
+			if (texPath.find("baseColor") != std::string::npos)
+			{
+				//Texture diffuse = Texture((pathDirectory + texPath).c_str(),
+				//	"diffuse", (uint32_t)loadedTextures.size());
+				Texture diffuse = Texture((pathDirectory + texPath).c_str(),
+					"diffuse", 0);
+				textures.push_back(diffuse);
+				loadedTextures.push_back(diffuse);
+				loadedTexPath.push_back(texPath);
 			}
 
-			if (!skip)
+			// Specular
+			if (texPath.find("metallicRoughness") != std::string::npos)
 			{
-				// Diffuse
-				if (texPath.find("baseColor") != std::string::npos)
-				{
-					Texture diffuse = Texture((pathDirectory + texPath).c_str(),
-						"diffuse", (uint32_t)loadedTextures.size());
-					textures.push_back(diffuse);
-					loadedTextures.push_back(diffuse);
-					loadedTexPath.push_back(texPath);
-				}
-
-				// Specular
-				if (texPath.find("metallicRoughness") != std::string::npos)
-				{
-					Texture specular = Texture((pathDirectory + texPath).c_str(),
-						"specular", (uint32_t)loadedTextures.size());
-					textures.push_back(specular);
-					loadedTextures.push_back(specular);
-					loadedTexPath.push_back(texPath);
-				}	
-			}
+				//Texture specular = Texture((pathDirectory + texPath).c_str(),
+				//	"specular", (uint32_t)loadedTextures.size());
+				Texture specular = Texture((pathDirectory + texPath).c_str(),
+					"specular", 1);
+				textures.push_back(specular);
+				loadedTextures.push_back(specular);
+				loadedTexPath.push_back(texPath);
+			}	
 		}
 
 		return textures;

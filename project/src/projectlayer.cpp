@@ -19,7 +19,6 @@ void ProjectLayer::OnAttach()
 
 	scene->AddObject(alduin);
 
-
 	/*
 	StaticMeshObject* rabbit = importer->ImportStaticMesh(
 		"../core/assets/meshes/bunny/scene.gltf");
