@@ -26,6 +26,9 @@ void main()
 {    
     float depth = logisticDepth(gl_FragCoord.z, 0.5f, 5.0f);
 
+	if (texture(texture_diffuse, TexCoords).a < 0.1)
+		discard;
+
     FragColor = texture(texture_diffuse, TexCoords) *
         (1.0f - depth) + vec4(depth * vec3(0.5f, 0.5f, 0.5f), 1.0f);
 }

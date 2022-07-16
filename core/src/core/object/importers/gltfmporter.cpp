@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 #include "core/debug/logger.h"
 #include "core/object/staticmesh.h"
@@ -26,12 +27,24 @@ namespace Core
 
 	StaticMeshObject* ImporterGLTF::ImportStaticMesh(const char* modelpath)
 	{
+		// Clear all data from previous import, if any
+		if (!data.empty())
+			data.clear();
+		if (!meshes.empty())
+			meshes.clear();
+
 		if (modelpath == nullptr)
 			Logger::LOG(Logger::LogPriority::Error, 
 				"Path returned null while trying to import static mesh!");
-
-		// Read gltf file
+		 
+		// Read gltf file as text
 		std::string text = ReadFileAsString(modelpath);
+
+		if (text.empty())
+			Logger::LOG(Logger::LogPriority::Error,
+				"Path returned null while trying to import static mesh!");
+
+		// Read gltf text as json
 		JSON = nlohmann::json::parse(text);
 
 		if (JSON == nullptr)
@@ -49,7 +62,7 @@ namespace Core
 			Logger::LOG(Logger::LogPriority::Info, "Successfully imported static mesh object at %s", modelpath);
 		else
 			Logger::LOG(Logger::LogPriority::Error, "Static Mesh import failed since gltf file contains no meshes");
-		
+
 		return new StaticMeshObject(meshes);
 	}
 
@@ -225,7 +238,6 @@ namespace Core
 
 		return floatVec;
 	}
-
 	std::vector<Texture> ImporterGLTF::GetTextures(uint32_t indMesh)
 	{
 		std::vector<Texture> textures;
@@ -234,9 +246,11 @@ namespace Core
 		std::string pathDirectory = 
 			pathStr.substr(0, pathStr.find_last_of('/') + 1);
 
-		// @TODO Find a better way to search for textures without
-		// relying on specific naming
-		std::string texPath = JSON["images"][indMesh]["uri"];
+		uint32_t materialIndex = JSON["meshes"][indMesh]["primitives"][0]["material"];
+		uint32_t baseColorIndex = JSON["materials"][materialIndex]["pbrMetallicRoughness"]\
+			["baseColorTexture"]["index"];
+
+		std::string texPath = JSON["images"][baseColorIndex]["uri"];
 
 		bool skip = false;
 		for (uint32_t j = 0; j < loadedTexPath.size(); j++)

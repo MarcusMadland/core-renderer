@@ -12,12 +12,11 @@ void ProjectLayer::OnAttach()
 
 	ImporterGLTF* importer = new ImporterGLTF();
 
-	StaticMeshObject* alduin = importer->ImportStaticMesh(
+	StaticMeshObject* tree = importer->ImportStaticMesh(
 		"../core/assets/meshes/tree/scene.gltf");
-	alduin->SetObjectScale({ 0.01f, 0.01f, 0.01f });
-	alduin->SetObjectRotation({ 0.0f, 0.0f, 90.0f });
-
-	scene->AddObject(alduin);
+	tree->SetObjectScale({ 0.01f, 0.01f, 0.01f });
+	tree->SetObjectRotation({ 0.0f, 0.0f, 90.0f });
+	scene->AddObject(tree);
 
 	/*
 	StaticMeshObject* rabbit = importer->ImportStaticMesh(

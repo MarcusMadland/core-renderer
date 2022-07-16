@@ -40,6 +40,7 @@ namespace Core
 			// OpenGL settings
 			glEnable(GL_DEPTH_TEST);
 			glDepthFunc(GL_LESS);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			// OpenGL Clear screen
 			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -55,6 +56,7 @@ namespace Core
 		{
 			PROFILE_SCOPE("Render");
 			PROFILE_SCOPE_ONSCREEN("cpu(render):");
+
 			// Draw all objects in scene
 			for (auto& obj : sceneObjects)
 			{

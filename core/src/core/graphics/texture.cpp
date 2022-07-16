@@ -54,7 +54,7 @@ namespace Core
 		}
 			
 		else
-			Logger::LOG(Logger::LogPriority::Error, "Automatic Texture type recognition failed");
+			Logger::LOG(Logger::LogPriority::Error, "Automatic Texture type recognition failed. NumColCh: ", numColCh);
 
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
