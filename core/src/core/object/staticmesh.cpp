@@ -19,7 +19,7 @@ namespace Core
 	{
         if (vertices.size() <= 0)
         {
-            Logger::LOG(Logger::LogPriority::Error, "List of Vertices while constructing StaticMesh are empty");
+            Logger::LOG(Logger::LogPriority::Critical, "List of Vertices while constructing StaticMesh are empty");
             return;
         }
 
@@ -79,7 +79,7 @@ namespace Core
             if (textures[i].type == "diffuse")
             {
                 glUseProgram(shaderID);
-                glUniform1f(glGetUniformLocation(shaderID,
+                glUniform1ui(glGetUniformLocation(shaderID,
                     "texture_diffuse"), i);
                 glBindTexture(GL_TEXTURE_2D, textures[i].id);
             }
@@ -92,6 +92,7 @@ namespace Core
         // Draw Mesh
         glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
         App::Instance().AddVertCount((uint32_t)indices.size());
         App::Instance().AddDrawCalls(1);

@@ -12,6 +12,11 @@ namespace Core
 {
 	struct Vertex
 	{
+		Vertex()
+			: position({0,0,0})
+			, normal({0,0,0})
+			, texCoords({0,0})
+		{}
 		Vertex(glm::vec3 position, glm::vec3 normal, glm::vec2 texCoords)
 			: position(position)
 			, normal(normal)
@@ -26,7 +31,7 @@ namespace Core
 	struct StaticMesh
 	{
 		std::vector<Vertex> vertices;
-		std::vector<unsigned int> indices;
+		std::vector<uint32_t> indices;
 		std::vector<Texture> textures;
 
 		uint32_t vao;
@@ -38,7 +43,7 @@ namespace Core
 		{}
 		StaticMesh(
 			std::vector<Vertex> vertices, 
-			std::vector<unsigned int> indices,
+			std::vector<uint32_t> indices,
 			std::vector<Texture> textures);
 
 		void Draw(uint32_t shaderID);

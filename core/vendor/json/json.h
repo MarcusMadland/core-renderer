@@ -4626,7 +4626,8 @@ namespace nlohmann
             case value_t::binary:
             case value_t::discarded:
             default:
-                JSON_THROW(type_error::create(302, concat("type must be number, but is ", j.type_name()), &j));
+            "";
+            //    JSON_THROW(type_error::create(302, concat("type must be number, but is ", j.type_name()), &j));
             }
         }
 

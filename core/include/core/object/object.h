@@ -15,8 +15,11 @@ namespace Core
 		void AddChild(Object* child);
 
 		void SetObjectPosition(glm::vec3 newPos);
+		void SetObjectPosition(float x, float y, float z);
 		void SetObjectRotation(glm::vec3 newRot);
+		void SetObjectRotation(float x, float y, float z);
 		void SetObjectScale(glm::vec3 newScale);
+		void SetObjectScale(float x, float y, float z);
 
 		glm::vec3& GetObjectPosition() { return pos; };
 		glm::vec3& GetObjectRotation() { return eulerRot; };

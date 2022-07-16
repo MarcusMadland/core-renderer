@@ -10,13 +10,23 @@ void ProjectLayer::OnAttach()
 
 	scene = new Scene();
 
-	ImporterGLTF* importer = new ImporterGLTF();
+	Light* light = new Light();
+	scene->AddObject(light);
 
+	ImporterGLTF importer;
+	
+	StaticMeshObject* shield = importer.ImportStaticMesh(
+		"../core/assets/meshes/shield/scene.gltf");
+	shield->SetObjectScale(0.2f, 0.2f, 0.2f);
+	shield->SetObjectRotation(0.0f, 0.0f, 90.0f);
+	scene->AddObject(shield);
+	
+	/*
 	StaticMeshObject* tree = importer->ImportStaticMesh(
-		"../core/assets/meshes/tree/scene.gltf");
+		"../core/assets/meshes/alduin/scene.gltf");
 	tree->SetObjectScale({ 0.01f, 0.01f, 0.01f });
 	tree->SetObjectRotation({ 0.0f, 0.0f, 90.0f });
-	scene->AddObject(tree);
+	scene->AddObject(tree);*/
 
 	/*
 	StaticMeshObject* rabbit = importer->ImportStaticMesh(
@@ -41,6 +51,7 @@ void ProjectLayer::OnAttach()
 void ProjectLayer::OnDetach()
 {
 	// Shutdown here..
+	delete scene;
 }
 
 void ProjectLayer::OnEvent(Core::Event& event)

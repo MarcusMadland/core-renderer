@@ -7,6 +7,7 @@
 #include "imguiex/imguiex.h"					// ImGui Extensions
 #include "core/object/scene.h"					// Scene
 #include "core/object/staticmesh.h"				// Object: StaticMesh
+#include "core/object/light.h"					// Object: Light
 #include "core/object/importers/gltfimporter.h"	// Importer: FBX
 #include "core/layerstack.h"					// Layers
 #include "core/graphics/shader.h"				// Shader

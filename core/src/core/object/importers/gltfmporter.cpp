@@ -68,6 +68,12 @@ namespace Core
 
 	void ImporterGLTF::LoadMesh(uint32_t indMesh)
 	{
+		if (indMesh > JSON["meshes"].size() - 1)
+		{
+			Logger::LOG(Logger::LogPriority::Warn, "Found 1 or more mesh that returns null while importing GLTF file");
+			return;
+		}
+			
 		// Positions
 		uint32_t posAccInd = JSON["meshes"][indMesh]\
 			["primitives"][0]["attributes"]["POSITION"];

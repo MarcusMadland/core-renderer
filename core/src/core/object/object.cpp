@@ -6,13 +6,25 @@ namespace Core
 	{
 		pos = newPos;
 	}
+	void Object::SetObjectPosition(float x, float y, float z)
+	{
+		pos = { x,y,z };
+	}
 	void Object::SetObjectRotation(glm::vec3 newRot)
 	{
 		eulerRot = newRot;
 	}
+	void Object::SetObjectRotation(float x, float y, float z)
+	{
+		eulerRot = { x,y,z };
+	}
 	void Object::SetObjectScale(glm::vec3 newScale)
 	{
 		scale = newScale;
+	}
+	void Object::SetObjectScale(float x, float y, float z)
+	{
+		scale = { x,y,z };
 	}
 	void Object::AddChild(Object* child)
 	{
