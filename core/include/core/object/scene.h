@@ -6,6 +6,9 @@
 #include "core/camera/camera.h"
 #include "core/events/event.h"
 
+#include "core/graphics/framebuffer.h"
+#include "core/graphics/skybox.h"
+
 namespace Core
 {
 	class Scene
@@ -21,8 +24,14 @@ namespace Core
 		void AddObject(Object* object);
 
 	private:
-		std::vector<Object*> sceneObjects;
 		Camera* camera;
-		uint32_t shaderID;
+		std::vector<Object*> sceneObjects;
+
+		Framebuffer framebuffer;
+		Skybox skybox;
+
+		uint32_t shaderID = 0;
+		uint32_t screenShaderID = 0;
+		uint32_t skyboxShaderID = 0;
 	};
 }

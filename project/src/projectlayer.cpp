@@ -10,7 +10,8 @@ void ProjectLayer::OnAttach()
 
 	scene = new Scene();
 
-	Light* light = new Light();
+	Light* light = new Light(Light::LightType::Point);
+	light->SetObjectPosition(0.5f, 0.5f, 0.5f);
 	scene->AddObject(light);
 
 	ImporterGLTF importer;

@@ -9,7 +9,6 @@
 namespace Core
 {
 	Scene::Scene()
-		: shaderID(0)
 	{
 		Init();
 	}
@@ -22,18 +21,36 @@ namespace Core
 		// Camera
 		camera = new Camera();
 
-		// Shader
+		// Shaders
 		Shader* shader = Shader::FromGLSL(
 			"../core/assets/shaders/core-vert.glsl",
 			"../core/assets/shaders/core-frag.glsl");
-		shader->Use();
 
-		// Save shaderID
+		Shader* shaderFramebuffer = Shader::FromGLSL(
+			"../core/assets/shaders/screen-vert.glsl",
+			"../core/assets/shaders/screen-frag.glsl");
+
+		Shader* shaderSkybox = Shader::FromGLSL(
+			"../core/assets/shaders/skybox-vert.glsl",
+			"../core/assets/shaders/skybox-frag.glsl");
+
+		// Save shaderIDs
 		shaderID = shader->GetID();
+		screenShaderID = shaderFramebuffer->GetID();
+		skyboxShaderID = shaderSkybox->GetID();
+
+		// Create framebuffer
+		framebuffer = Framebuffer(screenShaderID);
+
+		// Create skybox
+		skybox = Skybox(skyboxShaderID);
 	}
 	void Scene::Update(float dt)
 	{
 		PROFILE_SCOPE("Scene");
+
+		framebuffer.Bind();
+
 		{
 			PROFILE_SCOPE("Pre-Render");
 
@@ -50,6 +67,7 @@ namespace Core
 		// Update camera
 		{
 			PROFILE_SCOPE("Camera");
+
 			camera->Update(dt, shaderID);
 		}
 		
@@ -64,7 +82,12 @@ namespace Core
 				for (auto& child : obj->children)
 					child->Draw(shaderID);
 			}
+
+			// Update skybox
+			skybox.Draw(skyboxShaderID, camera->GetPosition(), camera->GetRotation(), camera->GetUpVector());
 		}
+
+		framebuffer.Unbind();
 	}
 	void Scene::OnEvent(Core::Event& event)
 	{

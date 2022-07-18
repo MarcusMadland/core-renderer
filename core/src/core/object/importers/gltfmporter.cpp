@@ -253,15 +253,27 @@ namespace Core
 			pathStr.substr(0, pathStr.find_last_of('/') + 1);
 
 		uint32_t materialIndex = JSON["meshes"][indMesh]["primitives"][0]["material"];
+
+		// Base Color
 		uint32_t baseColorIndex = JSON["materials"][materialIndex]["pbrMetallicRoughness"]\
 			["baseColorTexture"]["index"];
+		std::string baseColorPath = JSON["images"][baseColorIndex]["uri"];
 
-		std::string texPath = JSON["images"][baseColorIndex]["uri"];
+		// Specular
+		uint32_t specularIndex = JSON["materials"][materialIndex]["pbrMetallicRoughness"]\
+			["baseColorTexture"]["index"];
+		std::string specularPath = JSON["images"][specularIndex]["uri"];
+
+		// Normal
+		uint32_t normalIndex = JSON["materials"][materialIndex]["normalTexture"]["index"];
+		std::string normalPath = JSON["images"][normalIndex]["uri"];
 
 		bool skip = false;
 		for (uint32_t j = 0; j < loadedTexPath.size(); j++)
 		{
-			if (loadedTexPath[j] == texPath)
+			if (loadedTexPath[j] == baseColorPath || 
+				loadedTexPath[j] == specularPath ||
+				loadedTexPath[j] == normalPath)
 			{
 				textures.push_back(loadedTextures[j]);
 				skip = true;
@@ -272,28 +284,34 @@ namespace Core
 		if (!skip)
 		{
 			// Diffuse
-			if (texPath.find("baseColor") != std::string::npos)
+			if (baseColorPath.find("baseColor") != std::string::npos)
 			{
-				//Texture diffuse = Texture((pathDirectory + texPath).c_str(),
-				//	"diffuse", (uint32_t)loadedTextures.size());
-				Texture diffuse = Texture((pathDirectory + texPath).c_str(),
+				Texture diffuse = Texture((pathDirectory + baseColorPath).c_str(),
 					"diffuse", 0);
 				textures.push_back(diffuse);
 				loadedTextures.push_back(diffuse);
-				loadedTexPath.push_back(texPath);
+				loadedTexPath.push_back(baseColorPath);
 			}
 
 			// Specular
-			if (texPath.find("metallicRoughness") != std::string::npos)
+			if (specularPath.find("metallicRoughness") != std::string::npos)
 			{
-				//Texture specular = Texture((pathDirectory + texPath).c_str(),
-				//	"specular", (uint32_t)loadedTextures.size());
-				Texture specular = Texture((pathDirectory + texPath).c_str(),
+				Texture specular = Texture((pathDirectory + specularPath).c_str(),
 					"specular", 1);
 				textures.push_back(specular);
 				loadedTextures.push_back(specular);
-				loadedTexPath.push_back(texPath);
+				loadedTexPath.push_back(specularPath);
 			}	
+
+			// Specular
+			if (specularPath.find("normal") != std::string::npos)
+			{
+				Texture normal = Texture((pathDirectory + normalPath).c_str(),
+					"normal", 1);
+				textures.push_back(normal);
+				loadedTextures.push_back(normal);
+				loadedTexPath.push_back(normalPath);
+			}
 		}
 
 		return textures;

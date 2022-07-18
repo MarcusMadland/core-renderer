@@ -1,0 +1,11 @@
+Model Information:
+* title:	Toyota Supra
+* source:	https://sketchfab.com/3d-models/toyota-supra-16ab211659114ad1bf45095a67c0d325
+* author:	Mateusz Woliński (https://sketchfab.com/jeandiz)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Toyota Supra" (https://sketchfab.com/3d-models/toyota-supra-16ab211659114ad1bf45095a67c0d325) by Mateusz Woliński (https://sketchfab.com/jeandiz) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

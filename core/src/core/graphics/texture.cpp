@@ -35,7 +35,13 @@ namespace Core
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 			
-		if (numColCh == 4)
+		if (type == "normal")
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, widthImg, heightImg, 0,
+				GL_RGBA, GL_UNSIGNED_BYTE, bytes);
+		}
+
+		else if (numColCh == 4)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, widthImg, heightImg, 0,
 				GL_RGBA, GL_UNSIGNED_BYTE, bytes);

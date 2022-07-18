@@ -28,6 +28,8 @@ namespace Core
 
 	void Camera::Update(float dt, uint32_t shaderID)
 	{
+		glUseProgram(shaderID);
+
 		deltaTime = dt;
 
 		UpdateInput();
@@ -43,6 +45,9 @@ namespace Core
 
 		glUniformMatrix4fv(glGetUniformLocation(shaderID, "uCamera"),
 			1, GL_FALSE, glm::value_ptr(matrix));
+
+		glUniform3f(glGetUniformLocation(shaderID, "camera_pos"),
+			position.x, position.y, position.z);
 	}
 	void Camera::OnEvent(Core::Event& event)
 	{
@@ -96,6 +101,7 @@ namespace Core
 							-glm::normalize(glm::cross(rotation, upVector));
 
 						position += deltaTime * (speed * (float)mouseY) * upVector;
+							//-glm::normalize(glm::cross(rotation, glm::vec3(1.0f, 0.0f, 0.0f)));
 					}
 					reset = true;
 				}

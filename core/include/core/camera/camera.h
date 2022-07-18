@@ -26,6 +26,7 @@ namespace Core
 
 		glm::vec3 GetPosition() { return position; }
 		glm::vec3 GetRotation() { return rotation; }
+		glm::vec3 GetUpVector() { return upVector; }
 
 	private:
 		void UpdateInput();

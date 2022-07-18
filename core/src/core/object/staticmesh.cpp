@@ -78,14 +78,21 @@ namespace Core
 
             if (textures[i].type == "diffuse")
             {
-                glUseProgram(shaderID);
                 glUniform1ui(glGetUniformLocation(shaderID,
                     "texture_diffuse"), i);
                 glBindTexture(GL_TEXTURE_2D, textures[i].id);
             }
             if (textures[i].type == "specular")
             {
-                std::cout << textures[i].type << i << std::endl;
+                glUniform1ui(glGetUniformLocation(shaderID,
+                    "texture_specular"), i);
+                glBindTexture(GL_TEXTURE_2D, textures[i].id);
+            }
+            if (textures[i].type == "normal")
+            {
+                glUniform1ui(glGetUniformLocation(shaderID,
+                    "texture_normal"), i);
+                glBindTexture(GL_TEXTURE_2D, textures[i].id);
             }
         }
 
