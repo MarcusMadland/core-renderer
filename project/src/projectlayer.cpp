@@ -10,7 +10,7 @@ void ProjectLayer::OnAttach()
 
 	scene = new Scene();
 
-	Light* light = new Light(Light::LightType::Point);
+	Light* light = new Light(scene->GetCamera());
 	light->SetObjectPosition(0.5f, 0.5f, 0.5f);
 	scene->AddObject(light);
 

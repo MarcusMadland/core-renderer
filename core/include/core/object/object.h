@@ -18,6 +18,7 @@ namespace Core
 		void SetObjectPosition(float x, float y, float z);
 		void SetObjectRotation(glm::vec3 newRot);
 		void SetObjectRotation(float x, float y, float z);
+		void SetObjectRotation(glm::mat4 rotMatrix);
 		void SetObjectScale(glm::vec3 newScale);
 		void SetObjectScale(float x, float y, float z);
 
@@ -35,5 +36,7 @@ namespace Core
 		glm::vec3 pos =		 { 0.0f, 0.0f, 0.0f };
 		glm::vec3 eulerRot = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 scale =	 { 1.0f, 1.0f, 1.0f };
+
+		glm::mat4 rotationMatrixDirect = glm::mat4(1.0f);
 	};
 }

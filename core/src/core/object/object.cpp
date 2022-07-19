@@ -18,6 +18,10 @@ namespace Core
 	{
 		eulerRot = { x,y,z };
 	}
+	void Object::SetObjectRotation(glm::mat4 rotMatrix)
+	{
+		rotationMatrixDirect = rotMatrix;
+	}
 	void Object::SetObjectScale(glm::vec3 newScale)
 	{
 		scale = newScale;
@@ -32,20 +36,26 @@ namespace Core
 	}
 	glm::mat4 Object::GetLocalModelMatrix()
 	{
-		const glm::mat4 transformX = glm::rotate(glm::mat4(1.0f),
-			glm::radians(eulerRot.x),
-			glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 roationMatrix = glm::mat4(1.0f);
 
-		const glm::mat4 transformY = glm::rotate(glm::mat4(1.0f),
-			glm::radians(eulerRot.y),
-			glm::vec3(0.0f, 1.0f, 0.0f));
+		if (rotationMatrixDirect == glm::mat4(1.0f))
+		{
+			const glm::mat4 transformX = glm::rotate(glm::mat4(1.0f),
+				glm::radians(eulerRot.x),
+				glm::vec3(1.0f, 0.0f, 0.0f));
 
-		const glm::mat4 transformZ = glm::rotate(glm::mat4(1.0f),
-			glm::radians(eulerRot.z),
-			glm::vec3(0.0f, 0.0f, 1.0f));
+			const glm::mat4 transformY = glm::rotate(glm::mat4(1.0f),
+				glm::radians(eulerRot.y),
+				glm::vec3(0.0f, 1.0f, 0.0f));
 
-		const glm::mat4 roationMatrix =
-			transformY * transformX * transformZ;
+			const glm::mat4 transformZ = glm::rotate(glm::mat4(1.0f),
+				glm::radians(eulerRot.z),
+				glm::vec3(0.0f, 0.0f, 1.0f));
+
+			roationMatrix = transformY * transformX * transformZ;
+		}
+		else
+			roationMatrix = rotationMatrixDirect;
 
 		// Position * Rotation * Scale
 		glm::mat4 modelMat = glm::mat4(1.0f);

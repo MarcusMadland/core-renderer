@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "core/events/event.h"
+#include "core/object/object.h"
 
 struct GLFWwindow;
 
@@ -28,6 +29,8 @@ namespace Core
 		glm::vec3 GetRotation() { return rotation; }
 		glm::vec3 GetUpVector() { return upVector; }
 
+		glm::mat4 GetRotationMatrix() { return view; }
+
 	private:
 		void UpdateInput();
 
@@ -38,6 +41,9 @@ namespace Core
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec3 rotation = glm::vec3(0.0f, 0.0f, -1.0f);
 		glm::vec3 upVector = glm::vec3(0.0f, 1.0f, 0.0f);
+
+		glm::mat4 proj = glm::mat4(1.0f);
+		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 matrix = glm::mat4(1.0f);
 
 		bool pan = false;

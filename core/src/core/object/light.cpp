@@ -1,12 +1,18 @@
 #include "core/object/light.h"
 
+#include <iostream>
+#include <math.h>
+
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+#include "core/graphics/shader.h"
 
 namespace Core
 {
-	Light::Light(LightType lightType)
-		: lightType(lightType)
+	Light::Light(Camera* camera, LightType lightType)
+		: lightType(lightType), camera(camera)
 	{
 		SetLightType(lightType);
 		Init();
@@ -38,7 +44,33 @@ namespace Core
 		for (uint32_t i = 0; i < positions.size(); i++)
 			vertices.push_back(Vertex(positions[i], normals[i], texCoords[i]));
 
-		mesh = new StaticMesh(vertices, indices, { Texture() });
+		mesh = new StaticMeshObject({ StaticMesh(vertices, indices, { Texture() }) });
+		mesh->SetObjectScale(0.1f, 0.1f, 0.1f);
+	}
+
+	glm::vec3 Light::RotMatToEulerRot(glm::mat4& R)
+	{
+		{
+			float sy = sqrt(R[0][0] * R[0][0] + R[1][0] * R[1][0]);
+
+			bool singular = sy < 1e-6;
+
+			float x, y, z;
+			if (!singular)
+			{
+				x = atan2(R[2][1], R[2][2]);
+				y = atan2(-R[2][0], sy);
+				z = atan2(R[1][0], R[0][0]);
+			}
+			else
+			{
+				x = atan2(-R[1][2], R[1][1]);
+				y = atan2(-R[2][0], sy);
+				z = 0;
+			}
+			return glm::vec3(x, y, z);
+
+		}
 	}
 
 	void Light::Draw(uint32_t shaderID)
@@ -62,6 +94,9 @@ namespace Core
 		glUniform3f(glGetUniformLocation(shaderID, "light_pos"),
 			GetObjectPosition().x, GetObjectPosition().y, GetObjectPosition().z);
 
+		glm::vec3 desiredRot = RotMatToEulerRot(camera->GetRotationMatrix()) * (float)(180.0 / 3.1415);
+
+		mesh->SetObjectPosition(GetObjectPosition());
 		mesh->Draw(shaderID);
 	}
 	void Light::SetLightColor(glm::vec4 lightColor)

@@ -34,9 +34,6 @@ namespace Core
 
 		UpdateInput();
 
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 proj = glm::mat4(1.0f);
-
 		proj = glm::perspective(glm::radians(fov), (float)width / height,
 			nearPlane, farPlane);
 		view = glm::lookAt(position, (position + rotation), upVector);

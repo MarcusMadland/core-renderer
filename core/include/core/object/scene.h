@@ -23,6 +23,8 @@ namespace Core
 
 		void AddObject(Object* object);
 
+		Camera* GetCamera() { return camera; }
+
 	private:
 		Camera* camera;
 		std::vector<Object*> sceneObjects;
