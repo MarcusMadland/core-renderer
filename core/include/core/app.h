@@ -1,10 +1,9 @@
 #pragma once
 
 #include "window.h"
-#include "layerstack.h"
+#include "layer/layerstack.h"
 
-#include "debug/instrumentor.h"
-#include "layers/imguilayer.h"
+#include "layer/layers/imguilayer.h"
 
 #include "events/event.h"
 #include "events/keyevent.h"
@@ -29,17 +28,6 @@ namespace Core
 		inline static App& Instance() { return *instance; }
 		inline Window& GetWindow() { return *window; }
 
-		// Performance
-		void AddVertCount(uint32_t verts);
-		void AddDrawCalls(uint32_t calls);
-		void ResetVertCount();
-		void ResetDrawCalls();
-
-		inline uint32_t& GetVertCount() { return vertCount; }
-		inline uint32_t& GetDrawCalls() { return drawCalls; }
-		inline float& GetDeltaTime() { return deltaTime; }
-		inline std::vector<TimerResult>& GetTimerResults() { return timerResults; }
-
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
@@ -48,13 +36,9 @@ namespace Core
 		ImGuiLayer* imguiLayer;
 		bool isRunning = true;
 		LayerStack layerStack;
-		std::vector<TimerResult> timerResults;
 
 		float lastFrameTime = 0.0f;
 		float deltaTime = 0.0f;
-
-		uint32_t vertCount = 0;
-		uint32_t drawCalls = 0;
 
 		static App* instance;
 	};

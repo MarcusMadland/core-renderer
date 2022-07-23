@@ -6,6 +6,8 @@ in vec2 TexCoords;
 in vec3 Normal;
 in vec3 ObjectPosition;
 
+uniform uint object_type = 0; // 0 default, 1 billboard
+
 uniform sampler2D texture_diffuse;
 uniform sampler2D texture_specular;
 uniform sampler2D texture_normal;
@@ -111,6 +113,6 @@ void main()
 		FragColor = texDiffuseCol;
 
 	// Else, render a default color
-	else
-		FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f); // WHITE
+	if (object_type == 1)
+		FragColor = texture(texture_diffuse, TexCoords);
 }

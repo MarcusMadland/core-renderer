@@ -2,21 +2,15 @@
 
 #include "core.h"
 
-class ProjectLayer : public Layer
+class ProjectLayer : public Core::Layer
 {
 public:
-	ProjectLayer()
-		: scene(nullptr) 
-	{}
-
-	virtual ~ProjectLayer() {}
+	ProjectLayer();
+	virtual ~ProjectLayer();
 
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 	virtual void OnUpdate(const float& dt) override;
 	virtual void OnImGuiRender() override;
 	virtual void OnEvent(Core::Event& event) override;
-
-private:
-	Scene* scene;
 };
