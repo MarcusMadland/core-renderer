@@ -1,13 +1,13 @@
 #pragma once
 
 #include "window.h"
-#include "layer/layerstack.h"
+#include "layer/layer_stack.h"
 
-#include "layer/layers/imguilayer.h"
+#include "layer/layers/imgui_layer.h"
 
 #include "events/event.h"
-#include "events/keyevent.h"
-#include "events/appevent.h"
+#include "events/key_event.h"
+#include "events/app_event.h"
 
 namespace Core 
 {

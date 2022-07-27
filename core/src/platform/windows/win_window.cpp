@@ -1,13 +1,13 @@
-#include "platform/windows/winwindow.h"
+#include "platform/windows/win_window.h"
 
 #include <iostream>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "core/events/appevent.h"
-#include "core/events/keyevent.h"
-#include "core/events/mouseevent.h"
+#include "core/events/app_event.h"
+#include "core/events/key_event.h"
+#include "core/events/mouse_event.h"
 
 namespace Core
 {
@@ -28,7 +28,9 @@ namespace Core
 		window = glfwCreateWindow((int)info.width, (int)info.height, 
 			info.title, nullptr, nullptr);
 
-		glfwMakeContextCurrent(window);
+		graphics = new OpenGLGraphics(window);
+		graphics->Init();
+
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 		glfwSetWindowUserPointer(window, &winInfo);
@@ -145,7 +147,7 @@ namespace Core
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(window);
+		graphics->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enable)

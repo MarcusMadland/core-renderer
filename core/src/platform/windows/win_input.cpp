@@ -1,4 +1,4 @@
-#include "platform/windows/wininput.h"
+#include "platform/windows/win_input.h"
 
 #include <GLFW/glfw3.h>
 

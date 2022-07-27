@@ -2,6 +2,8 @@
 
 #include "core/window.h"
 
+#include "core/graphics/opengl/ogl_graphics.h"
+
 struct GLFWwindow;
 
 namespace Core
@@ -43,6 +45,7 @@ namespace Core
 		};
 
 		GLFWwindow* window;
+		Graphics* graphics;
 		WindowsWindowInfo winInfo;
 	};
 }
