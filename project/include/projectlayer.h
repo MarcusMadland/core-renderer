@@ -2,6 +2,7 @@
 
 #include "core.h"
 
+#include "core/layer/layer.h"
 #include "core/graphics/shader.h"
 #include "core/graphics/camera.h"
 
@@ -19,4 +20,6 @@ public:
 
 private:
 	Core::Camera camera;
+
+	bool debugMenu;
 };

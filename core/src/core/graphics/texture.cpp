@@ -14,33 +14,25 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "core/graphics/texture.h"
 
-#include "renderer_api.h"
+#include "core/graphics/renderer.h"
+
+#include "core/graphics/opengl/ogl_texture.h"
 
 namespace Core
 {
-	class RendererCommand
+	Ref<Texture2D> Texture2D::Create(const char* path)
 	{
-	public:
-		inline static void Init()
+		switch (Renderer::GetGraphicsAPI())
 		{
-			rendererAPI->Init();
-		}
-		inline static void SetClearColor(const glm::vec4& color)
-		{
-			rendererAPI->SetClearColor(color);
-		}
-		inline static void Clear()
-		{
-			rendererAPI->Clear();
-		}
-		inline static void DrawIndexed(const Ref<VertexArray>& vao)
-		{
-			rendererAPI->DrawIndexed(vao);
+		case RendererAPI::GraphicsAPI::None:
+			return nullptr;
+
+		case RendererAPI::GraphicsAPI::OpenGL:
+			return std::make_shared<OpenGLTexture2D>(path);
 		}
 
-	private:
-		static RendererAPI* rendererAPI;
-	};
+		return nullptr;
+	}
 }

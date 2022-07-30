@@ -1,7 +1,24 @@
+/*
+ * Copyright 2022 Marcus Madland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissionsand
+ * limitations under the License.
+ */
+
 #pragma once
 
-#include "renderer_command.h"
+#include "core.h"
 
+#include "renderer_command.h"
 #include "camera.h"
 #include "shader.h"
 
@@ -10,11 +27,13 @@ namespace Core
 	class Renderer
 	{
 	public:
+		static void Init();
+
 		static void BeginScene(Camera& camera); 
 		static void EndScene();   
 		
-		static void Submit(const std::shared_ptr<VertexArray>& vao,
-			const std::shared_ptr<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
+		static void Submit(const Ref<VertexArray>& vao,
+			const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::GraphicsAPI GetGraphicsAPI() { return RendererAPI::GetAPI(); }
 	

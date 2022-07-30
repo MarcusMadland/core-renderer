@@ -1,119 +1,58 @@
+/*
+ * Copyright 2022 Marcus Madland
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissionsand
+ * limitations under the License.
+ */
+
 #include "core/graphics/shader.h"
 
-#include <vector>
-#include <fstream>
+#include "core/graphics/renderer.h"
 
-#include <glad/glad.h>
-#include <glm/gtc/type_ptr.hpp>
+#include "core/graphics/opengl/ogl_shader.h"
 
 namespace Core
 {
-	static std::string ReadFileAsString(const std::string& filepath)
-	{
-		std::string result;
-		std::ifstream in(filepath, std::ios::in | std::ios::binary);
-		if (in)
-		{
-			in.seekg(0, std::ios::end);
-			result.resize((size_t)in.tellg());
-			in.seekg(0, std::ios::beg);
-			in.read(&result[0], result.size());
-			in.close();
-		}
-
-		return result;
-	}
-
-	Shader::Shader()
-		: id(0)
-	{
-	}
-	Shader::~Shader()
-	{
-		glDeleteProgram(id);
-	}
-
-	Shader* Shader::FromGLSL(const std::string& vertexShaderPath,
+	Ref<Shader> Shader::Create(const std::string& vertexShaderPath,
 		const std::string& fragmentShaderPath)
 	{
-		Shader* shader = new Shader();
-		shader->LoadFromGLSLTextFiles(vertexShaderPath, fragmentShaderPath);
-		return shader;
-	}
-	void Shader::Bind() const
-	{
-		glUseProgram(id);
-	}
-	void Shader::Unbind() const
-	{
-		glUseProgram(0);
+		switch (Renderer::GetGraphicsAPI())
+		{
+		case RendererAPI::GraphicsAPI::None:
+			return nullptr;
+
+		case RendererAPI::GraphicsAPI::OpenGL:
+			return std::make_shared<OpenGLShader>(vertexShaderPath, fragmentShaderPath);
+		}
+
+		return nullptr;
 	}
 
-	void Shader::UniformMat4(const char* name, const glm::mat4& matrix)
+	void ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
-		glUniformMatrix4fv(glGetUniformLocation(id, name), 1, GL_FALSE, glm::value_ptr(matrix));
+		shaders[shader->GetName()] = shader;
 	}
 
-	void Shader::LoadFromGLSLTextFiles(const std::string& vertexShaderPath,
+	Ref<Shader> ShaderLibrary::Load(const std::string& vertexShaderPath, 
 		const std::string& fragmentShaderPath)
 	{
-		std::string vertexSource = ReadFileAsString(vertexShaderPath);
-		std::string fragmentSource = ReadFileAsString(fragmentShaderPath);
-
-		GLuint program = glCreateProgram();
-
-		GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource);
-		glAttachShader(program, vertexShader);
-		GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
-		glAttachShader(program, fragmentShader);
-
-		glLinkProgram(program);
-
-		GLint isLinked = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
-		if (isLinked == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-
-			glDeleteProgram(program);
-
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-		}
-
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
-		id = program;
-	}
-	uint32_t Shader::CompileShader(uint32_t type, const std::string& source)
-	{
-		GLuint shader = glCreateShader(type);
-
-		const GLchar* sourceCStr = source.c_str();
-		glShaderSource(shader, 1, &sourceCStr, 0);
-
-		glCompileShader(shader);
-
-		GLint isCompiled = 0;
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
-
-			glDeleteShader(shader);
-		}
-
+		auto shader = Shader::Create(vertexShaderPath, fragmentShaderPath);
+		Add(shader);
 		return shader;
 	}
+
+	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	{
+		return shaders[name];
+	}
+
 }

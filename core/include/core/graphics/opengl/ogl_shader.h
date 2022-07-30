@@ -16,31 +16,34 @@
 
 #pragma once
 
-#include "renderer_api.h"
+#include <glm/glm.hpp>
+
+#include "core/graphics/shader.h"
 
 namespace Core
 {
-	class RendererCommand
+	class OpenGLShader : public Shader
 	{
 	public:
-		inline static void Init()
-		{
-			rendererAPI->Init();
-		}
-		inline static void SetClearColor(const glm::vec4& color)
-		{
-			rendererAPI->SetClearColor(color);
-		}
-		inline static void Clear()
-		{
-			rendererAPI->Clear();
-		}
-		inline static void DrawIndexed(const Ref<VertexArray>& vao)
-		{
-			rendererAPI->DrawIndexed(vao);
-		}
+		OpenGLShader(const std::string& vertexShaderPath,
+			const std::string& fragmentShaderPath);
+		virtual ~OpenGLShader();
+
+		void Bind() const override;
+		void Unbind() const override;
+
+		virtual const std::string& GetName() const override { return name; };
+
+		void UniformMat4(const char* name, const glm::mat4& value);
+		void UniformVec4(const char* name, const glm::vec4& value);
+
+		uint32_t GetID() const { return id; }
 
 	private:
-		static RendererAPI* rendererAPI;
+		uint32_t Compile(uint32_t type, const std::string& source);
+
+	private:
+		uint32_t id;
+		std::string name;
 	};
 }

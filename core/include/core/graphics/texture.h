@@ -16,31 +16,24 @@
 
 #pragma once
 
-#include "renderer_api.h"
+#include "core.h"
 
 namespace Core
 {
-	class RendererCommand
+	class Texture
 	{
 	public:
-		inline static void Init()
-		{
-			rendererAPI->Init();
-		}
-		inline static void SetClearColor(const glm::vec4& color)
-		{
-			rendererAPI->SetClearColor(color);
-		}
-		inline static void Clear()
-		{
-			rendererAPI->Clear();
-		}
-		inline static void DrawIndexed(const Ref<VertexArray>& vao)
-		{
-			rendererAPI->DrawIndexed(vao);
-		}
+		virtual ~Texture() = default;
 
-	private:
-		static RendererAPI* rendererAPI;
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
+
+		virtual void Bind(uint32_t slot = 0) const = 0;
+	};
+
+	class Texture2D : public Texture
+	{
+	public:
+		static Ref<Texture2D> Create(const char* path);
 	};
 }
