@@ -16,13 +16,14 @@
 
 #include "core/graphics/buffer.h"
 
+#include "core.h"
 #include "core/graphics/renderer.h"
 
 #include "core/graphics/opengl/ogl_buffer.h"
 
 namespace Core
 {
-	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		switch (Renderer::GetGraphicsAPI())
 		{
@@ -30,13 +31,13 @@ namespace Core
 			return nullptr;
 
 		case RendererAPI::GraphicsAPI::OpenGL:
-			return new OpenGLVertexBuffer(vertices, size);
+			return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 		}
 
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
 	{
 		switch (Renderer::GetGraphicsAPI())
 		{
@@ -44,13 +45,13 @@ namespace Core
 			return nullptr;
 
 		case RendererAPI::GraphicsAPI::OpenGL:
-			return new OpenGLIndexBuffer(indices, size);
+			return std::make_shared<OpenGLIndexBuffer>(indices, size);
 		}
 
 		return nullptr;
 	}
 
-	VertexArray* VertexArray::Create()
+	Ref<VertexArray> VertexArray::Create()
 	{
 		switch (Renderer::GetGraphicsAPI())
 		{
@@ -58,7 +59,7 @@ namespace Core
 			return nullptr;
 
 		case RendererAPI::GraphicsAPI::OpenGL:
-			return new OpenGLVertexArray();
+			return std::make_shared<OpenGLVertexArray>();
 		}
 
 		return nullptr;

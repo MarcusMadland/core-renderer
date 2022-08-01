@@ -25,43 +25,39 @@ namespace Core
 		: view(1.0f)
 		, eulerRot({0.0f, 0.0f, 0.0f})
 		, pos({0.0f, 0.0f, 0.0f})
+		, forwardVector({0.0f, 0.0f, -1.0f})
+		, upVector({ 0.0f, 1.0f, 0.0f })
 	{
-		proj = glm::perspective(fov, (width / height), near, far);
+		proj = glm::perspective(glm::radians(fov), (width / height), near, far);
+		view = glm::lookAt(GetPosition(), (GetPosition() + forwardVector), upVector);
+
 		viewProj = proj * view;
 	}
 
 	void Camera::SetPosition(const glm::vec3& position)
 	{
 		pos = position;
-		RecalculateViewMatrix();
 	}
 
 	void Camera::SetRotation(const glm::vec3& rotation)
 	{
 		eulerRot = rotation;
-		RecalculateViewMatrix();
+	}
+
+	void Camera::SetForwardVector(const glm::vec3& forwardVec)
+	{
+		forwardVector = forwardVec;
+	}
+
+	void Camera::SetUpVector(const glm::vec3& upVec)
+	{
+		upVector = upVec;
 	}
 
 	void Camera::RecalculateViewMatrix()
 	{
-		const glm::mat4 transformX = glm::rotate(glm::mat4(1.0f),
-			glm::radians(eulerRot.x),
-			glm::vec3(1.0f, 0.0f, 0.0f));
+		view = glm::lookAt(GetPosition(), (GetPosition() + forwardVector), upVector);
 
-		const glm::mat4 transformY = glm::rotate(glm::mat4(1.0f),
-			glm::radians(eulerRot.y),
-			glm::vec3(0.0f, 1.0f, 0.0f));
-
-		const glm::mat4 transformZ = glm::rotate(glm::mat4(1.0f),
-			glm::radians(eulerRot.z),
-			glm::vec3(0.0f, 0.0f, 1.0f));
-
-		glm::mat4 roationMatrix = transformY * transformX * transformZ;
-		glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), pos);
-		
-		glm::mat4 transform = translationMatrix * roationMatrix;
-
-		view = glm::inverse(transform);
 		viewProj = proj * view;
 	}
 }

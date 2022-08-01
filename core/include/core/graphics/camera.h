@@ -28,6 +28,7 @@ namespace Core
 			const float near, const float far);
 		virtual ~Camera() = default;
 
+		void RecalculateViewMatrix();
 
 		const glm::vec3& GetPosition() const { return pos; }
 		void SetPosition(const glm::vec3& position);
@@ -35,17 +36,23 @@ namespace Core
 		const glm::vec3& GetRotation() const { return eulerRot; }
 		void SetRotation(const glm::vec3& rotation);
 
+		const glm::vec3& GetForwardVector() const { return forwardVector; }
+		void SetForwardVector(const glm::vec3& forwardVec);
+
+		const glm::vec3& GetUpVector() const { return upVector; }
+		void SetUpVector(const glm::vec3& upVec);
+
 		const glm::mat4& GetProjectionMatrix() const { return proj; }
 		const glm::mat4& GetViewMatrix() const { return view; }
 		const glm::mat4& GetViewProjectionMatrix() const { return viewProj; }
 
 	private:
-		void RecalculateViewMatrix();
-
-	private:
 		glm::mat4 view;
 		glm::mat4 proj;
 		glm::mat4 viewProj;
+
+		glm::vec3 forwardVector;
+		glm::vec3 upVector;
 
 		glm::vec3 pos;
 		glm::vec3 eulerRot;

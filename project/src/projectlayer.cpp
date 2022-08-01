@@ -1,14 +1,29 @@
 #include "projectlayer.h"
 
-#include "core/events/key_event.h"
-#include "core/graphics/renderer_command.h"
-#include "core/graphics/renderer.h"
+#include <glm/glm/ext/matrix_transform.hpp>
+#include <Glad/glad.h>
+
+#include "core/graphics/opengl/ogl_shader.h"
 
 void ProjectLayer::OnAttach()
 {
 	// Init here..
+	shader = Core::Shader::Create("../assets/shaders/cube-vert.glsl", "../assets/shaders/cube-frag.glsl");
+	vao = Core::VertexArray::Create();
 
-	camera = Core::Camera(90.0f, 1280.0f, 720.0f, 0.1f, 500.0f);
+	// Index Buffer
+	ibo = Core::IndexBuffer::Create(indices, sizeof(indices) / sizeof(float));
+	vao->SetIndexBuffer(ibo);
+
+	// Vertex Buffer
+	vbo = Core::VertexBuffer::Create(vertices, sizeof(vertices));
+	Core::BufferLayout layout =
+	{
+		{ Core::ShaderDataType::Vec3, "a_Pos" },
+		//{ Core::ShaderDataType::Vec2, "a_TexCoord" },
+	};
+	vbo->SetLayout(layout);
+	vao->AddVertexBuffer(vbo);
 }
 
 void ProjectLayer::OnDetach()
@@ -19,6 +34,7 @@ void ProjectLayer::OnDetach()
 void ProjectLayer::OnEvent(Core::Event& event)
 {
 	// Events here..
+	camera.OnEvent(event);
 
 	Core::EventDispatcher dispatcher(event);
 
@@ -39,10 +55,15 @@ void ProjectLayer::OnUpdate(const float& dt)
 {
 	// Update here..
 
+	camera.OnUpdate(dt);
+
 	Core::RendererCommand::SetClearColor({ 1.0f, 0.0f, 1.0f, 1.0f });
 	Core::RendererCommand::Clear();
 
-	Core::Renderer::BeginScene(camera);
+	Core::Renderer::BeginScene(camera.GetCamera());
+
+	Core::Renderer::Submit(vao, shader, glm::translate(glm::mat4(1.0f), cubePos)); // CUBE
+
 	Core::Renderer::EndScene();
 }
 
@@ -70,5 +91,12 @@ void ProjectLayer::OnImGuiRender()
 
 			ImGui::EndMainMenuBar();
 		}
+	}
+
+	ImGui::Begin("tester");
+	{
+		ImGui::SliderFloat3("cube pos", &cubePos.x, -1.0f, 1.0f);
+
+		ImGui::End();
 	}
 }

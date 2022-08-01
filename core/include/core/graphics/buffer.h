@@ -26,6 +26,7 @@ namespace Core
 	enum class ShaderDataType
 	{
 		None = 0,
+		Vec2,
 		Vec3,
 		Vec4,
 		Mat4x4,
@@ -35,6 +36,9 @@ namespace Core
 	{
 		switch (type)
 		{
+			case ShaderDataType::Vec2:
+				return sizeof(float) * 2;
+
 			case ShaderDataType::Vec3:
 				return sizeof(float) * 3;
 
@@ -65,6 +69,9 @@ namespace Core
 		{
 			switch (type)
 			{
+			case ShaderDataType::Vec2:
+				return 2;
+
 			case ShaderDataType::Vec3:
 				return 3;
 
@@ -116,7 +123,7 @@ namespace Core
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 		virtual const BufferLayout& GetLayout() const = 0;
 
-		static VertexBuffer* Create(float* vertices, uint32_t size);
+		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
 	};
 
 	class IndexBuffer
@@ -129,7 +136,7 @@ namespace Core
 
 		virtual uint32_t GetCount() const = 0;
 
-		static IndexBuffer* Create(uint32_t* indices, uint32_t count);
+		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 	};
 
 	class VertexArray
@@ -146,6 +153,6 @@ namespace Core
 		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffer() const = 0;
 		virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 	};
 }

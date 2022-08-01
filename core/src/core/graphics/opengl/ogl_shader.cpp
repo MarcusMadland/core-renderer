@@ -18,6 +18,7 @@
 
 #include <vector>
 #include <fstream>
+#include <iostream>
 
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -39,6 +40,8 @@ namespace Core
 			vertexIn.read(&vertexSource[0], vertexSource.size());
 			vertexIn.close();
 		}
+		else
+			std::cout << "vertexShaderPath: Shader not found" << std::endl;
 
 		// Read file as string for Fragment Shader
 		std::string fragmentSource;
@@ -51,6 +54,8 @@ namespace Core
 			fragIn.read(&fragmentSource[0], fragmentSource.size());
 			fragIn.close();
 		}
+		else
+			std::cout << "fragmentShaderPath: Shader not found" << std::endl;
 
 		// Create and Compile OpenGL shader
 		GLuint program = glCreateProgram();
