@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Build Solution
+    - name: Build MSVS Solution File
       run: build-project-files.bat
 
     - name: Add MSBuild to PATH
