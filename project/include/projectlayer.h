@@ -57,5 +57,4 @@ private:
 	Core::Ref<Core::IndexBuffer> ibo;
 	Core::Ref<Core::VertexArray> vao;
 	Core::Ref<Core::Shader> shader;
-	glm::vec3 cubePos;
 };

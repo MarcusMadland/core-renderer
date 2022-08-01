@@ -62,7 +62,7 @@ void ProjectLayer::OnUpdate(const float& dt)
 
 	Core::Renderer::BeginScene(camera.GetCamera());
 
-	Core::Renderer::Submit(vao, shader, glm::translate(glm::mat4(1.0f), cubePos)); // CUBE
+	Core::Renderer::Submit(vao, shader, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -0.5f))); // CUBE
 
 	Core::Renderer::EndScene();
 }
@@ -91,12 +91,5 @@ void ProjectLayer::OnImGuiRender()
 
 			ImGui::EndMainMenuBar();
 		}
-	}
-
-	ImGui::Begin("tester");
-	{
-		ImGui::SliderFloat3("cube pos", &cubePos.x, -1.0f, 1.0f);
-
-		ImGui::End();
 	}
 }
