@@ -26,4 +26,4 @@ jobs:
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v4
 
-      - run: devenv Discover.sln /Build "${{ matrix.buildconfig }}|x64"
+      - run: devenv Project.sln /Build "${{ matrix.buildconfig }}|x64"
