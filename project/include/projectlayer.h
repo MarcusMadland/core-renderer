@@ -23,6 +23,7 @@ public:
 
 private:
 	Core::CameraController camera;
+	Core::ShaderLibrary shaderLibrary;
 
 	bool debugMenu;
 
@@ -56,5 +57,4 @@ private:
 	Core::Ref<Core::VertexBuffer> vbo;
 	Core::Ref<Core::IndexBuffer> ibo;
 	Core::Ref<Core::VertexArray> vao;
-	Core::Ref<Core::Shader> shader;
 };

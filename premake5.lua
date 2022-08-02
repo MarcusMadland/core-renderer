@@ -1,5 +1,5 @@
 -- Project
-workspace "Project"
+workspace "project"
 	architecture "x64"
 	startproject "Project"
 

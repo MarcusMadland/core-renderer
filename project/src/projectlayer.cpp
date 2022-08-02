@@ -8,7 +8,13 @@
 void ProjectLayer::OnAttach()
 {
 	// Init here..
-	shader = Core::Shader::Create("../assets/shaders/cube-vert.glsl", "../assets/shaders/cube-frag.glsl");
+
+	// Shaders
+	Core::Ref<Core::Shader> cubeShader = shaderLibrary.Load(
+		"../assets/shaders/cube-vert.glsl", "../assets/shaders/cube-frag.glsl");
+	shaderLibrary.Add(cubeShader);
+
+	// Vertex Array
 	vao = Core::VertexArray::Create();
 
 	// Index Buffer
@@ -62,7 +68,7 @@ void ProjectLayer::OnUpdate(const float& dt)
 
 	Core::Renderer::BeginScene(camera.GetCamera());
 
-	Core::Renderer::Submit(vao, shader, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -0.5f))); // CUBE
+	Core::Renderer::Submit(vao, shaderLibrary.Get("cube"), glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -0.5f))); // CUBE
 
 	Core::Renderer::EndScene();
 }

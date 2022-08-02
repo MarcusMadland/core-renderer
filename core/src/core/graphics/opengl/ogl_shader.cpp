@@ -94,7 +94,7 @@ namespace Core
 		auto lastSlash = vertexShaderPath.find_last_of("/\\");
 		lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
 
-		auto lastDot = vertexShaderPath.rfind('.');
+		auto lastDot = vertexShaderPath.rfind('-');
 		auto count = (lastDot == std::string::npos) ? vertexShaderPath.size() - lastSlash : lastDot - lastSlash;
 
 		name = vertexShaderPath.substr(lastSlash, count);
